@@ -18,3 +18,5 @@
 <style scoped>
 /* Não vamos usar CSS puro aqui, deixaremos tudo a cargo do Tailwind! */
 </style>
+
+
