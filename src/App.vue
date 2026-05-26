@@ -2,6 +2,10 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
+// ─── Registrar plugins GSAP ──────────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 import NavBar from './components/NavBar.vue'
 import HeroSection from './components/HeroSection.vue'
@@ -22,6 +26,18 @@ const heroPinWrapper = ref(null) // <--- ÂNCORA INFALÍVEL DO VUE PARA O GSAP
 
 function aoRolar() {
   scrollY.value = window.scrollY
+}
+
+// ─── Relógio & Scroll Suave (GSAP) ──────────────────────────────────────────
+const horaAtual = ref('')
+const atualizarHora = () => {
+  const agora = new Date()
+  horaAtual.value = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+}
+let intervaloHora = null
+
+const rolarPagina = () => {
+  gsap.to(window, { scrollTo: { y: '#sobre', offsetY: 0 }, duration: 1 })
 }
 
 // ─── Motor de Animação GSAP — Scrollytelling ────────────────────────────────
@@ -60,7 +76,7 @@ function inicializarAnimacoes() {
       scrollTrigger: {
         trigger: heroPinWrapper.value,
         start: 'top top',
-        end: '+=800',
+        end: () => '+=' + heroPinWrapper.value.offsetHeight,
         pin: true,
         pinSpacing: true,
         scrub: 1,
@@ -69,6 +85,7 @@ function inicializarAnimacoes() {
 
     // Anima o wrapper que envolve TODO o conteúdo da hero-section.
     tlPin.to('.hero-fade-wrapper', { opacity: 0, y: -40, duration: 1 }, 0)
+    tlPin.to('.hero-footer-wrapper', { opacity: 0, y: -40, duration: 1 }, 0)
   }
 
   // 3. SOBRE MIM
@@ -141,6 +158,9 @@ function inicializarAnimacoes() {
 
 // ─── Lifecycle ──────────────────────────────────────────────────────────────
 onMounted(() => {
+  atualizarHora()
+  intervaloHora = setInterval(atualizarHora, 60000)
+
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
@@ -161,6 +181,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  clearInterval(intervaloHora)
   window.removeEventListener('scroll', aoRolar)
   ScrollTrigger.getAll().forEach(st => st.kill())
   gsap.killTweensOf('*')
@@ -175,6 +196,26 @@ onUnmounted(() => {
       
       <div ref="heroPinWrapper" class="w-full relative">
         <HeroSection />
+      </div>
+
+      <!-- Rodapé da Hero — Wrapper imune ao pin-spacer para evitar conflitos de scrub do GSAP -->
+      <div class="hero-footer-wrapper fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4 md:px-12 lg:px-16 z-20 pointer-events-none">
+        <div class="hero-footer opacity-0 flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 gap-4">
+          
+          <div class="flex items-center gap-4 pointer-events-auto">
+            <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
+              <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
+              SOBRACORTE // ONLINE
+            </div>
+          </div>
+
+          <div class="flex items-center gap-6 pointer-events-auto">
+            <span class="text-neutral-900 dark:text-white">{{ horaAtual }}</span>
+            <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
+              ↓ ROLAR PARA EXPLORAR
+            </button>
+          </div>
+        </div>
       </div>
       
       <SobreMimSection />

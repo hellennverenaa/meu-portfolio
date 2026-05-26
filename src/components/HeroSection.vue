@@ -20,12 +20,12 @@
         <path ref="lanyardPath" fill="none" stroke="url(#lanyardGradient)" stroke-width="14" stroke-linecap="round" />
       </svg>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center z-10 w-full pt-20 pb-20">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-15 items-center z-10 w-full pt-20 pb-20">
 
         <div class="lg:col-span-7 flex flex-col text-left order-2 lg:order-1">
 
           <!-- Badge de Arquitetura -->
-          <div class="hero-badge opacity-0 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mb-4 md:mb-6 w-fit backdrop-blur-md">
+          <div class="hero-badge opacity-0 inline-flex items-center gap-4 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mb-4 md:mb-6 w-fit backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-[var(--color-terminal)] animate-pulse"></span>
             ARQUITETURA DE SOFTWARE & SOLUÇÕES INDUSTRIAIS
           </div>
@@ -105,24 +105,6 @@
       </div>
 
 
-      <!-- ─── Rodapé da Hero ───────────────────────────────────────────────── -->
-      <div class="hero-footer opacity-0 w-full flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 z-10 gap-4">
-        
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
-            <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
-            SOBRACORTE // ONLINE
-          </div>
-        </div>
-
-        <div class="flex items-center gap-6">
-          <span class="text-neutral-900 dark:text-white">{{ horaAtual }}</span>
-          <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
-            ↓ ROLAR PARA EXPLORAR
-          </button>
-        </div>
-      </div>
-
     </div><!-- fim .hero-fade-wrapper -->
   </section>
 </template>
@@ -141,21 +123,9 @@ const badgeContainer = ref(null)
 const cordSvgRef = ref(null)
 const lanyardPath = ref(null)
 
-const horaAtual = ref('')
-const atualizarHora = () => {
-  const agora = new Date()
-  horaAtual.value = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-}
-
 let animationFrameId = null
 let draggableInstance = null
 let idleTween = null
-let intervaloHora = null
-
-// ─── Função de Scroll Suave Nativa ──────────────────────────────────────────
-const rolarPagina = () => {
-  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
-}
 
 // ─── Desenhar Cordão (Bezier Quadrática) ────────────────────────────────────
 function drawLanyard() {
@@ -303,9 +273,6 @@ function startParticles() {
 // ─── Lifecycle ──────────────────────────────────────────────────────────────
 onMounted(async () => {
 
-  atualizarHora()
-  intervaloHora = setInterval(atualizarHora, 60000)
-
   await nextTick()
 
   startParticles()
@@ -336,7 +303,6 @@ onUnmounted(() => {
   cancelAnimationFrame(animationFrameId)
   window.removeEventListener('scroll', drawLanyard)
   window.removeEventListener('resize', drawLanyard)
-  clearInterval(intervaloHora)
 
   if (idleTween) idleTween.kill()
   if (draggableInstance) {
