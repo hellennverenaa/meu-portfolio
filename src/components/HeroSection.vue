@@ -1,5 +1,5 @@
 <template>
-  <section id="inicio" class="hero-section relative min-h-screen flex flex-col justify-between pt-24 md:pt-28 pb-8 md:pb-12 px-4 md:px-6 max-w-7xl mx-auto z-10 overflow-visible">
+  <section id="inicio" class="hero-section relative min-h-screen flex flex-col justify-between pt-6 md:pt-6 pb-6 md:pb-4 px-2 md:px-6 max-w-7xl mx-auto z-10 overflow-visible">
     <canvas ref="particleCanvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
 
     <svg ref="cordSvgRef" class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
@@ -18,6 +18,10 @@
         <div class="hero-badge opacity-0 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mb-4 md:mb-6 w-fit backdrop-blur-md">
           <span class="w-2 h-2 rounded-full bg-[var(--color-terminal)] animate-pulse"></span>
           ARQUITETURA DE SOFTWARE & SOLUÇÕES INDUSTRIAIS
+        </div>
+
+        <div class="text-[var(--color-magenta)] font-mono text-xs uppercase tracking-[0.2em] mb-2">
+          Portfólio Profissional — 2026
         </div>
 
         <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-[var(--color-text-pure)] leading-none tracking-brutal uppercase select-none overflow-hidden">
@@ -76,11 +80,25 @@
 
     </div>
 
-    <div class="hero-footer opacity-0 w-full flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 mt-8 md:mt-12 z-10 gap-2">
-      <div class="flex items-center gap-2 font-mono text-xs text-[var(--color-text-pure)]"><span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span> SOBRACORTE // ONLINE</div>
-      <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
-        ↓ ROLAR PARA EXPLORAR
-      </button>
+    <div class="hero-footer opacity-0 w-full flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 mt-8 md:mt-12 z-10 gap-4">
+      
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 text-white">
+          <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
+          SOBRACORTE // ONLINE
+        </div>
+        <div class="px-3 py-1 rounded-full border border-[#7000FF]/50 bg-[#7000FF]/10 text-[#B282FF] text-[10px] uppercase tracking-widest flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-[#B282FF] rounded-full"></span>
+          Disponível para 2026
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <span class="text-[var(--color-text-pure)]">{{ horaAtual }}</span>
+        <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
+          ↓ ROLAR PARA EXPLORAR
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -98,6 +116,12 @@ const badgeRef = ref(null)
 const badgeContainer = ref(null)
 const cordSvgRef = ref(null)
 const lanyardPath = ref(null)
+
+const horaAtual = ref('')
+const atualizarHora = () => {
+  const agora = new Date()
+  horaAtual.value = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+}
 
 let animationFrameId = null
 let draggableInstance = null
@@ -253,6 +277,10 @@ function startParticles() {
 
 // ─── Lifecycle ──────────────────────────────────────────────────────────────
 onMounted(async () => {
+
+  atualizarHora()
+const intervaloHora = setInterval(atualizarHora, 60000)
+
   await nextTick()
 
   startParticles()
@@ -283,7 +311,8 @@ onUnmounted(() => {
   cancelAnimationFrame(animationFrameId)
   window.removeEventListener('scroll', drawLanyard)
   window.removeEventListener('resize', drawLanyard)
-  
+  clearInterval(intervaloHora)
+
   if (idleTween) idleTween.kill()
   if (draggableInstance) {
     if (Array.isArray(draggableInstance)) {
