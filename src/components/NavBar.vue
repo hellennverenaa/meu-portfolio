@@ -6,13 +6,9 @@ import { Sun, Moon, Menu, X } from '@lucide/vue'
 const modoEscuro = ref(document.documentElement.classList.contains('dark'))
 
 function alternarTema() {
-  // Ativa transição suave de tema
   document.documentElement.classList.add('theme-transitioning')
-
   modoEscuro.value = !modoEscuro.value
   document.documentElement.classList.toggle('dark', modoEscuro.value)
-
-  // Remove a classe de transição após a animação
   setTimeout(() => {
     document.documentElement.classList.remove('theme-transitioning')
   }, 500)
@@ -25,9 +21,25 @@ function toggleMenu() {
   menuAberto.value = !menuAberto.value
 }
 
+// ─── Navegação com offset para compensar navbar fixa + GSAP pin-spacer ─────
 function irPara(id) {
   menuAberto.value = false
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+
+  // Caso especial: 'inicio' precisa ir para o topo absoluto da página,
+  // porque o GSAP pin-spacer desloca o elemento #inicio do DOM original.
+  if (id === 'inicio') {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    return
+  }
+
+  const el = document.getElementById(id)
+  if (!el) return
+
+  // Calcula posição manual com offset da navbar (80px)
+  // Isso evita que scrollIntoView fique escondido atrás da navbar fixa
+  const navbarHeight = 80
+  const elementTop = el.getBoundingClientRect().top + window.scrollY - navbarHeight
+  window.scrollTo({ top: elementTop, behavior: 'smooth' })
 }
 
 // ─── Props & Computeds ──────────────────────────────────────────────────────
@@ -44,23 +56,26 @@ const progressoLeitura = computed(() => {
   return Math.min((props.scrollY / total) * 100, 100)
 })
 
+// Ordem: Início, Sobre, Carreira, Projetos, Stacks, Contato
 const navItems = [
+  { label: 'Início', id: 'inicio' },
   { label: 'Sobre', id: 'sobre' },
   { label: 'Carreira', id: 'carreira' },
-  { label: 'Serviços', id: 'servicos' },
   { label: 'Projetos', id: 'projetos' },
+  { label: 'Stacks', id: 'stacks' },
   { label: 'Contato', id: 'contato' },
 ]
 </script>
 
 <template>
+  <!-- Navbar — z-[100] garante que fique acima do GSAP pin-spacer (z-auto) -->
   <header
     :class="[
-      'fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-out',
+      'fixed top-0 inset-x-0 z-[100] transition-all duration-500 ease-out',
       'flex items-center justify-between px-4 md:px-12 lg:px-16',
       headerOpaco
-        ? 'py-3 md:py-4 bg-[var(--color-bg-main)]/90 backdrop-blur-2xl border-b border-[var(--color-border)]/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
-        : 'py-5 md:py-8 bg-transparent border-b border-transparent'
+        ? 'py-3 md:py-4 bg-[var(--color-bg-main)]/80 backdrop-blur-md border-b border-[var(--color-border)]/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
+        : 'py-5 md:py-8 bg-transparent backdrop-blur-md border-b border-transparent'
     ]"
   >
     <!-- Logo -->
@@ -141,7 +156,7 @@ const navItems = [
   <Transition name="mobile-menu">
     <div
       v-if="menuAberto"
-      class="fixed inset-0 z-40 bg-[var(--color-bg-main)]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+      class="fixed inset-0 z-[90] bg-[var(--color-bg-main)]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
     >
       <a
         v-for="item in navItems"

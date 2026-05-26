@@ -27,7 +27,7 @@ const servicos = [
 </script>
 
 <template>
-  <section id="servicos" class="relative py-20 md:py-32 lg:py-40 px-4 md:px-12 lg:px-16">
+  <section id="servicos" class="relative py-20 md:py-32 lg:py-40 px-4 md:px-12 lg:px-16 scroll-mt-20">
     <div class="max-w-7xl mx-auto">
 
       <!-- Cabeçalho da seção -->
