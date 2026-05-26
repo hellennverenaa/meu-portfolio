@@ -22,20 +22,20 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-15 items-center z-10 w-full pt-0 md:pt-20 pb-10 md:pb-20 relative">
 
-        <div class="lg:col-span-7 flex flex-col text-left order-1 pb-8 md:pb-32 relative z-20">
+        <div class="lg:col-span-7 flex flex-col text-left order-1 pt-28 md:pt-0 pb-8 md:pb-32 relative z-20">
 
           <!-- Badge de Arquitetura -->
-          <div class="hero-badge opacity-0 inline-flex items-center gap-4 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mt-4 md:mt-0 mb-6 md:mb-6 w-fit backdrop-blur-md">
+          <div class="hero-badge opacity-0 hidden md:inline-flex items-center gap-4 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mt-4 md:mt-0 mb-6 md:mb-6 w-fit backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-[var(--color-terminal)] animate-pulse"></span>
             ARQUITETURA DE SOFTWARE & SOLUÇÕES INDUSTRIAIS
           </div>
 
-          <div class="text-[var(--color-magenta)] font-mono text-xs uppercase tracking-[0.2em] mb-4 md:mb-2">
+          <div class="text-[var(--color-magenta)] font-mono text-xs uppercase tracking-[0.2em] mb-4 md:mb-2 hidden md:block">
             Portfólio Profissional — 2026
           </div>
 
           <!-- Badge de Disponibilidade — alta visibilidade, logo abaixo do label -->
-          <div class="hero-avail-badge opacity-0 inline-flex items-center gap-2.5 px-5 py-2 rounded-full w-fit mb-8 md:mb-6
+          <div class="hero-avail-badge opacity-0 hidden md:inline-flex items-center gap-2.5 px-5 py-2 rounded-full w-fit mb-8 md:mb-6
                       border border-[#7000FF] bg-[#7000FF]/10
                       shadow-[0_0_20px_rgba(112,0,255,0.15),inset_0_0_12px_rgba(112,0,255,0.08)]
                       backdrop-blur-md z-20">
@@ -48,16 +48,26 @@
             </span>
           </div>
 
+          <!-- Cabeçalho Minimalista Mobile -->
+          <div class="hero-mobile-header flex flex-col gap-2 md:hidden mb-4 z-20 relative">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#00FF00] shadow-[0_0_8px_#00FF00] animate-pulse"></span>
+              <span class="text-[10px] font-mono tracking-widest text-neutral-300 uppercase">Aceitando Projetos 2026</span>
+            </div>
+            <span class="text-[10px] font-mono tracking-widest text-[#FF007F] uppercase">Arquitetura de Software & Soluções Industriais</span>
+          </div>
+
           <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-[var(--color-text-pure)] leading-none tracking-brutal uppercase select-none overflow-hidden">
             <span class="gs-hidden block opacity-0 transform translate-y-full">HELLEN</span>
             <span class="gs-hidden block opacity-0 transform translate-y-full text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-ultraviolet)] to-[var(--color-magenta)]">VERENA</span>
           </h1>
 
-          <p class="hero-sub opacity-0 mt-8 md:mt-8 text-base md:text-lg lg:text-xl text-[var(--color-text-muted)] max-w-xl font-normal leading-relaxed">
+          <p class="hero-sub opacity-0 mt-8 md:mt-8 text-base md:text-lg lg:text-xl text-[var(--color-text-muted)] max-w-xl font-normal leading-relaxed hidden md:block">
             Especialista em otimização extrema de <span class="text-[var(--color-text-pure)] font-mono">PostgreSQL</span> e arquitetura com <span class="text-[var(--color-text-pure)] font-mono">Prisma ORM</span>. Desenvolvendo sistemas inteligentes de alta performance para o chão de fábrica industrial.
           </p>
 
-          <div class="hero-buttons opacity-0 mt-10 md:mt-10 flex flex-wrap gap-3 md:gap-4">
+          <!-- Desktop Buttons (hidden on mobile) -->
+          <div class="hero-buttons opacity-0 mt-10 md:mt-10 hidden md:flex flex-wrap gap-3 md:gap-4">
             <a href="#sobre" class="group relative px-6 md:px-8 py-3 md:py-4 bg-[var(--color-ultraviolet)] hover:bg-[var(--color-magenta)] text-white font-medium rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] transform-gpu hover:scale-105 shadow-[0_0_25px_rgba(112,0,255,0.4)] hover:shadow-[0_0_30px_rgba(255,0,127,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50 text-sm md:text-base">
               Saber Mais
             </a>
@@ -107,17 +117,50 @@
 
       </div>
 
+      <!-- Mobile Paragraph & Buttons (hidden on desktop) — Localizados fora do grid, perto do rodapé com cores vivas e opacidade 100% -->
+      <div class="md:hidden flex flex-col items-center gap-4 w-full z-20 relative mt-auto px-4 pb-2">
+        <p class="hero-sub opacity-0 text-sm text-[var(--color-text-muted)] text-center max-w-sm font-normal leading-relaxed">
+          Especialista em otimização extrema de <span class="text-[var(--color-text-pure)] font-mono font-semibold">PostgreSQL</span> e arquitetura com <span class="text-[var(--color-text-pure)] font-mono font-semibold">Prisma ORM</span>. Desenvolvendo sistemas inteligentes de alta performance para o chão de fábrica industrial.
+        </p>
+
+        <div class="hero-buttons opacity-0 w-full flex justify-center flex-wrap gap-3 pointer-events-auto">
+          <a href="#sobre" class="group relative px-5 py-2.5 bg-[var(--color-ultraviolet)] hover:bg-[var(--color-magenta)] text-white font-semibold rounded-full transition-all duration-500 active:scale-95 text-xs shadow-[0_0_15px_rgba(112,0,255,0.5)]">
+            Saber Mais
+          </a>
+          <a href="#contato" class="px-5 py-2.5 rounded-full border-2 border-[var(--color-ultraviolet)] bg-[var(--color-bg-surface)]/95 text-neutral-900 dark:text-white font-semibold transition-all duration-300 active:scale-95 text-xs">
+            Iniciar Conexão
+          </a>
+          <a href="/Curriculo-Hellen-Verena-(Desenvolvedora).pdf" target="_blank" download class="px-5 py-2.5 rounded-full border-2 border-dashed border-[#FF007F] bg-[var(--color-bg-surface)]/95 text-neutral-900 dark:text-white font-semibold transition-all duration-300 active:scale-95 text-xs">
+            Baixar Currículo
+          </a>
+        </div>
+      </div>
+
       <!-- ─── Rodapé da Hero ───────────────────────────────────────────────── -->
-      <div class="hero-footer opacity-0 w-full flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 z-10 gap-4 mt-auto">
+      <div class="hero-footer opacity-0 w-full flex justify-center sm:justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 z-10 gap-4 mt-auto bottom-center">
         
-        <div class="flex items-center gap-4">
+        <!-- Lado Esquerdo (Desktop apenas) -->
+        <div class="hidden sm:flex items-center gap-4">
           <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
             <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
             SOBRACORTE // ONLINE
           </div>
         </div>
 
-        <div class="flex items-center gap-6">
+        <!-- Botão Mobile (Centralizado com seta minimalista e pulso) -->
+        <div class="flex sm:hidden flex-col items-center justify-center w-full gap-2">
+          <div class="animate-pulse">
+            <svg class="w-4 h-4 text-[var(--color-magenta)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 13l-7 7-7-7m14-6l-7 7-7-7" />
+            </svg>
+          </div>
+          <button @click="rolarPagina" class="cursor-pointer focus-visible:outline-none">
+            <span class="font-mono uppercase text-[10px] tracking-widest text-neutral-400">Rolar para explorar</span>
+          </button>
+        </div>
+
+        <!-- Lado Direito (Desktop apenas) -->
+        <div class="hidden sm:flex items-center gap-6">
           <span class="text-neutral-900 dark:text-white">{{ horaAtual }}</span>
           <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
             ↓ ROLAR PARA EXPLORAR
@@ -345,6 +388,15 @@ onMounted(async () => {
       onUpdate: drawLanyard
     })
   }
+
+  // Animação de entrada do cabeçalho minimalista no mobile
+  gsap.from('.hero-mobile-header', {
+    opacity: 0,
+    y: 15,
+    duration: 0.8,
+    delay: 0.5,
+    ease: 'power3.out'
+  })
 })
 
 onUnmounted(() => {
