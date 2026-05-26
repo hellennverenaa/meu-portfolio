@@ -18,15 +18,10 @@
           </h2>
           <div class="flex flex-col gap-4 md:gap-5">
             <p class="sobre-text gs-hidden text-[var(--color-text-muted)] text-base md:text-lg leading-relaxed">
-              A minha vivência direta na indústria têxtil ensinou-me que software
-              elegante que não responde às restrições do chão de fábrica é inútil.
-              Construo ferramentas baseadas na realidade: tempos de ciclo, gestão
-              brutal de inventário e redução implacável de desperdícios.
+              Minha trajetória profissional é fundamentada na vivência industrial real, atuando diretamente em cargos como <strong class="text-[var(--color-text-pure)] font-semibold">Assistente de Consumo</strong> e <strong class="text-[var(--color-text-pure)] font-semibold">Auxiliar de Custos</strong>. Essa experiência prática me deu uma compreensão profunda sobre como identificar e eliminar gargalos de produção no chão de fábrica.
             </p>
             <p class="sobre-text gs-hidden text-[var(--color-text-muted)] text-base md:text-lg leading-relaxed">
-              Trago a filosofia <strong class="text-[var(--color-text-pure)] font-semibold">Lean e diagnósticos A3</strong>
-              para a arquitetura de código, garantindo queries eficientes e
-              processos em lote que rodam de forma silenciosa e perfeita.
+              Essa base operacional e analítica fundamenta diretamente a forma como construo soluções robustas utilizando <strong class="text-[var(--color-text-pure)] font-semibold">Node.js e PostgreSQL</strong>. Desenvolvo sistemas focados na reconciliação precisa de estoque, controle rigoroso de resíduos industriais e rastreamento de desperdícios, conectando regras de negócio complexas à realidade física da produção.
             </p>
           </div>
 

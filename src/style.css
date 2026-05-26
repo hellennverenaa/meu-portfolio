@@ -8,6 +8,7 @@
 }
 
 @layer base {
+
   /* ═══ Tema Claro ═══ */
   :root {
     --color-bg-main: #F5F3FF;
@@ -30,7 +31,7 @@
     background-color: var(--color-bg-main);
     color: var(--color-text-pure);
     font-family: 'Geist', 'Inter', -apple-system, sans-serif;
-    overflow-x: hidden;
+
     transition: background-color 0.5s ease, color 0.5s ease;
   }
 }
@@ -40,9 +41,11 @@
   0% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
   }
+
   50% {
     border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
   }
+
   100% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
   }
@@ -52,41 +55,9 @@
   animation: blob-morph 8s ease-in-out infinite;
 }
 
-/* ─── Animação de Flutuação Suave ────────────────────────────────────────── */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
 /* ─── Tipografia Estilo Brutalista ───────────────────────────────────────── */
 .tracking-brutal {
   letter-spacing: -0.05em;
-}
-
-/* ─── Marquee Infinite Scroll ────────────────────────────────────────────── */
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee-track {
-  animation: marquee 30s linear infinite;
-}
-
-.marquee-track:hover {
-  animation-play-state: paused;
 }
 
 /* ─── Custom Scrollbar ───────────────────────────────────────────────────── */
@@ -136,4 +107,21 @@ html.theme-transitioning *,
 html.theme-transitioning *::before,
 html.theme-transitioning *::after {
   transition-duration: 0.4s !important;
+}
+
+/* ─── Microinteração Flutuante ───────────────────────────────────────────── */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
