@@ -22,7 +22,7 @@
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-15 items-center z-10 w-full pt-0 md:pt-20 pb-10 md:pb-20 relative">
 
-        <div class="lg:col-span-7 flex flex-col text-left order-1 pt-28 md:pt-0 pb-8 md:pb-32 relative z-20">
+        <div class="lg:col-span-9 flex flex-col text-left order-1 pt-12 md:pt-0 pb-8 md:pb-32 relative z-20">
 
           <!-- Badge de Arquitetura -->
           <div class="hero-badge opacity-0 hidden md:inline-flex items-center gap-4 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mt-4 md:mt-0 mb-6 md:mb-6 w-fit backdrop-blur-md">
@@ -49,15 +49,16 @@
           </div>
 
           <!-- Cabeçalho Minimalista Mobile -->
-          <div class="hero-mobile-header flex flex-col gap-2 md:hidden mb-4 z-20 relative">
+          <div class="hero-mobile-header flex flex-col gap-2 md:hidden z-10 absolute -top-6 left-0 right-0">
             <div class="flex items-center gap-2">
               <span class="w-2 h-2 rounded-full bg-[#00FF00] shadow-[0_0_8px_#00FF00] animate-pulse"></span>
               <span class="text-[10px] font-mono tracking-widest text-neutral-300 uppercase">Aceitando Projetos 2026</span>
             </div>
-            <span class="text-[10px] font-mono tracking-widest text-[#FF007F] uppercase">Arquitetura de Software & Soluções Industriais</span>
+            <span class="text-[10px] font-mono tracking-widest text-[#FF007F] uppercase">Arquitetura de Software
+              <br> & Soluções Industriais</span>
           </div>
 
-          <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-[var(--color-text-pure)] leading-none tracking-brutal uppercase select-none overflow-hidden">
+          <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-[var(--color-text-pure)] leading-none tracking-brutal uppercase select-none overflow-hidden mt-16 md:mt-0">
             <span class="gs-hidden block opacity-0 transform translate-y-full">HELLEN</span>
             <span class="gs-hidden block opacity-0 transform translate-y-full text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-ultraviolet)] to-[var(--color-magenta)]">VERENA</span>
           </h1>
