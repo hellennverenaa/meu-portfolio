@@ -1,18 +1,5 @@
 <script setup>
-import {
-  Layers, Code, Database, Settings, Cpu, Wrench, GitBranch, Box
-} from '@lucide/vue'
-
-const competencias = [
-  { nome: 'Vue 3 / Composition API', icone: Layers },
-  { nome: 'Node.js', icone: Code },
-  { nome: 'PostgreSQL', icone: Database },
-  { nome: 'Prisma ORM', icone: Settings },
-  { nome: 'Tailwind CSS v4', icone: Cpu },
-  { nome: 'Lean / Metodologia A3', icone: Wrench },
-  { nome: 'Git & Versionamento', icone: GitBranch },
-  { nome: 'Gestão de Inventário', icone: Box },
-]
+// Competências movidas para o MarqueeBand
 </script>
 
 <template>
@@ -63,8 +50,8 @@ const competencias = [
         <!-- Coluna direita: Foto Estática + Competências -->
         <div class="flex flex-col gap-8 md:gap-10">
 
-          <!-- Foto Estática -->
-          <div class="sobre-photo gs-hidden relative w-full max-w-xs md:max-w-sm mx-auto border border-[var(--color-border)] bg-[var(--color-bg-surface)]/30 backdrop-blur-md p-3 md:p-4 rounded-xl shadow-[0_10px_40px_rgba(112,0,255,0.1)] transform-gpu">
+          <!-- Foto Estática com animação de flutuação -->
+          <div class="sobre-photo gs-hidden relative w-full max-w-xs md:max-w-sm mx-auto border border-[var(--color-border)] bg-[var(--color-bg-surface)]/30 backdrop-blur-md p-3 md:p-4 rounded-xl shadow-[0_10px_40px_rgba(112,0,255,0.1)] transform-gpu animate-float">
             <div class="relative aspect-[3/4] w-full grayscale hover:grayscale-0 transition-all duration-700 overflow-hidden rounded-lg border border-[var(--color-ultraviolet)]/20">
               <img src="../assets/hero.png" alt="Hellen Verena — Retrato Estático" class="w-full h-full object-cover object-top" />
               <div class="absolute bottom-2 left-2 bg-black/80 px-2 py-1 rounded text-[10px] font-mono text-[var(--color-terminal)]">
@@ -78,29 +65,18 @@ const competencias = [
             <div class="absolute -inset-px rounded-xl bg-gradient-to-b from-[var(--color-ultraviolet)]/10 to-transparent pointer-events-none -z-10"></div>
           </div>
 
-          <!-- Grid de Competências -->
-          <div class="flex flex-col gap-4">
+          <!-- Bloco Corporativo Prático -->
+          <div class="flex flex-col gap-4 text-left">
             <span class="font-mono text-xs font-medium tracking-[0.2em] uppercase text-[var(--color-text-muted)]/60">
-              Stack & Ferramentas
+              Competências Práticas
             </span>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
-              <div
-                v-for="comp in competencias"
-                :key="comp.nome"
-                class="sobre-comp gs-hidden group flex items-center gap-3 md:gap-4 p-3 md:p-4
-                       bg-[var(--color-bg-surface)]/40 backdrop-blur-sm
-                       border border-[var(--color-border)] hover:border-[var(--color-ultraviolet)]/40
-                       rounded-xl
-                       hover:-translate-y-0.5
-                       transform-gpu transition-all duration-400 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-default"
-              >
-                <div class="p-2 md:p-2.5 rounded-lg bg-[var(--color-ultraviolet)]/8 text-[var(--color-ultraviolet)] group-hover:text-[var(--color-magenta)] group-hover:scale-110 transition-all duration-300">
-                  <component :is="comp.icone" class="w-4 h-4" />
-                </div>
-                <span class="font-semibold text-xs md:text-sm text-[var(--color-text-muted)] group-hover:text-[var(--color-text-pure)] transition-colors duration-300">
-                  {{ comp.nome }}
-                </span>
-              </div>
+            <div class="sobre-comp gs-hidden bg-[var(--color-bg-surface)]/40 backdrop-blur-sm border border-[var(--color-border)] rounded-xl p-5 md:p-6 text-[var(--color-text-muted)] text-sm md:text-base leading-relaxed hover:border-[var(--color-ultraviolet)]/40 transition-colors duration-300">
+              <p class="mb-4">
+                Especialista na orquestração de <strong class="text-[var(--color-text-pure)] font-semibold">controle de inventário de resíduos</strong> e logística de devoluções diretamente no chão de fábrica.
+              </p>
+              <p>
+                Desenvolvo lógicas estritas para <strong class="text-[var(--color-text-pure)] font-semibold">reconciliação de estoque</strong> em tempo real e <strong class="text-[var(--color-text-pure)] font-semibold">automação de processos</strong> industriais, mitigando perdas financeiras sistêmicas por meio de processamento em lote escalável.
+              </p>
             </div>
           </div>
 

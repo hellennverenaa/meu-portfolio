@@ -52,6 +52,20 @@
   animation: blob-morph 8s ease-in-out infinite;
 }
 
+/* ─── Animação de Flutuação Suave ────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
 /* ─── Tipografia Estilo Brutalista ───────────────────────────────────────── */
 .tracking-brutal {
   letter-spacing: -0.05em;

@@ -233,6 +233,12 @@ function inicializarAnimacoes() {
 
 // ─── Lifecycle ──────────────────────────────────────────────────────────────
 onMounted(() => {
+  // Correção de Scroll Restoration (Bug do F5)
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual'
+  }
+  window.scrollTo(0, 0)
+
   // O tema dark é definido pelo index.html (<html class="dark">)
   // e controlado pelo NavBar. Não forçamos aqui.
   window.addEventListener('scroll', aoRolar, { passive: true })

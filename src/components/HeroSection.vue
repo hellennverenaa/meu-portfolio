@@ -3,14 +3,14 @@
     <canvas ref="particleCanvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
 
     <!-- SVG Cordão do Crachá -->
-    <svg ref="cordSvgRef" class="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
+    <svg ref="cordSvgRef" class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
       <defs>
         <linearGradient id="cordGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="var(--color-text-muted)" stop-opacity="0.5" />
-          <stop offset="100%" stop-color="var(--color-ultraviolet)" stop-opacity="0.8" />
+          <stop offset="0%" stop-color="#7000FF" stop-opacity="1" />
+          <stop offset="100%" stop-color="#FF007F" stop-opacity="1" />
         </linearGradient>
       </defs>
-      <path ref="cordPathRef" fill="none" stroke="url(#cordGradient)" stroke-width="2.5" stroke-linecap="round" />
+      <path ref="cordPathRef" fill="none" stroke="url(#cordGradient)" stroke-width="12" stroke-linecap="round" />
     </svg>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center z-10 w-full my-auto">
@@ -47,6 +47,7 @@
           <div
             ref="badgeRef"
             class="hero-photo floating-card relative w-48 md:w-64 lg:w-72 bg-[var(--color-bg-surface)]/80 border border-[var(--color-ultraviolet)]/40 rounded-2xl shadow-[0_0_50px_rgba(112,0,255,0.15)] backdrop-blur-xl flex flex-col transition-shadow duration-300 pointer-events-auto transform-gpu will-change-transform cursor-grab active:cursor-grabbing select-none"
+            style="opacity: 1; visibility: visible;"
           >
             <!-- Passador Metálico (Clip) — Ponto de conexão do cordão -->
             <div class="badge-clip flex flex-col items-center -mt-4 relative z-10">
@@ -86,12 +87,15 @@
     <!-- Barra inferior -->
     <div class="hero-footer opacity-0 w-full flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 mt-8 md:mt-12 z-10 gap-2">
       <div class="flex items-center gap-4">
-        <span>[ SCALE ] ATIVO</span>
-        <span>[ SOBRACORTE ] CORE</span>
+        <div class="flex items-center gap-2 font-mono text-xs text-[var(--color-text-pure)]">
+          <span class="w-2 h-2 bg-[var(--color-terminal)] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
+          SOBRACORTE // ONLINE
+        </div>
+        <span>[ CORE ] ACT/V</span>
       </div>
-      <div class="animate-bounce text-[var(--color-magenta)]">
+      <button @click="rolarParaBaixo" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
         ↓ ROLAR PARA EXPLORAR
-      </div>
+      </button>
     </div>
   </section>
 </template>
@@ -113,6 +117,10 @@ const cordPathRef = ref(null)
 let animationFrameId = null
 let draggableInstance = null
 let idleTween = null
+
+function rolarParaBaixo() {
+  window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })
+}
 
 // ─── Atualizar Cordão SVG (Bezier Quadrática) ──────────────────────────────
 function updateCord() {
@@ -265,12 +273,11 @@ onMounted(async () => {
 
   // Entrada Cinética: Crachá cai de fora da tela
   if (badgeRef.value) {
-    gsap.set(badgeRef.value, { y: -window.innerHeight, opacity: 0 })
+    gsap.set(badgeRef.value, { y: -window.innerHeight })
 
     // Delay para o crachá cair após o texto começar a aparecer
     gsap.to(badgeRef.value, {
       y: 0,
-      opacity: 1,
       duration: 2.5,
       delay: 0.8,
       ease: 'elastic.out(1, 0.3)',
