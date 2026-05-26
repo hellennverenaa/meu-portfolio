@@ -131,19 +131,19 @@ const socialLinks = [
         &copy; 2026 <strong class="text-[var(--color-text-pure)]">hellen.dev</strong>
       </p>
       <div class="flex gap-6 md:gap-8">
-        <a href="https://github.com/" target="_blank" rel="noopener noreferrer"
+        <a href="https://github.com/hellennverenaa" target="_blank" rel="noopener noreferrer"
            class="font-mono text-[10px] md:text-xs tracking-widest uppercase text-[var(--color-text-muted)] hover:text-[var(--color-magenta)] transition-colors duration-300">
           GitHub
         </a>
-        <a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer"
+        <a href="https://www.linkedin.com/in/hellen-verena/" target="_blank" rel="noopener noreferrer"
            class="font-mono text-[10px] md:text-xs tracking-widest uppercase text-[var(--color-text-muted)] hover:text-[var(--color-magenta)] transition-colors duration-300">
           LinkedIn
         </a>
-        <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer"
+        <a href="https://www.instagram.com/hellennverena/" target="_blank" rel="noopener noreferrer"
            class="font-mono text-[10px] md:text-xs tracking-widest uppercase text-[var(--color-text-muted)] hover:text-[var(--color-magenta)] transition-colors duration-300">
           Instagram
         </a>
-        <a href="https://wa.me/55" target="_blank" rel="noopener noreferrer"
+        <a href="https://wa.me/5575982979829" target="_blank" rel="noopener noreferrer"
            class="font-mono text-[10px] md:text-xs tracking-widest uppercase text-[var(--color-text-muted)] hover:text-[var(--color-magenta)] transition-colors duration-300">
           WhatsApp
         </a>
