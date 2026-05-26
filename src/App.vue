@@ -264,8 +264,8 @@ onUnmounted(() => {
     <SobreMimSection />
     <ServicosSection />
     <MarqueeBand />
-    <ProjetosSection />
     <TimelineSection />
+    <ProjetosSection />
     <ContatoSection />
   </div>
 </template>
