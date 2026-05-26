@@ -3,11 +3,11 @@ import { Database, Settings, Factory } from '@lucide/vue'
 
 const servicos = [
   {
-    id: 'banco-dados',
-    titulo: 'Arquitetura de Banco de Dados',
+    id: 'web-mobile',
+    titulo: 'Desenvolvimento Web & Mobile',
     icone: Database,
-    descricao: 'Modelagem relacional avançada, índices compostos e otimização cirúrgica de queries PostgreSQL. Redução de tempo de resposta em consultas complexas com milhões de registros.',
-    destaques: ['PostgreSQL', 'Prisma ORM', 'Índices Compostos', 'Query Planner'],
+    descricao: 'Criação de aplicações reativas, painéis de gestão e aplicativos nativos focados em usabilidade e performance utilizando Vue.js e React Native.',
+    destaques: ['Vue.js', 'React Native', 'Tailwind CSS', 'UX/UI'],
   },
   {
     id: 'otimizacao',

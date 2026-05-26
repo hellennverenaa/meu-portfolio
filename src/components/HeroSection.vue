@@ -27,7 +27,7 @@
           <!-- Badge de Arquitetura -->
           <div class="hero-badge opacity-0 hidden md:inline-flex items-center gap-4 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mt-4 md:mt-0 mb-6 md:mb-6 w-fit backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-[var(--color-terminal)] animate-pulse"></span>
-            ARQUITETURA DE SOFTWARE & SOLUÇÕES INDUSTRIAIS
+            DESENVOLVIMENTO FRONT-END & PROCESSOS INDUSTRIAIS
           </div>
 
           <div class="text-[var(--color-magenta)] font-mono text-xs uppercase tracking-[0.2em] mb-4 md:mb-2 hidden md:block">
@@ -54,8 +54,8 @@
               <span class="w-2 h-2 rounded-full bg-[#00FF00] shadow-[0_0_8px_#00FF00] animate-pulse"></span>
               <span class="text-[10px] font-mono tracking-widest text-neutral-300 uppercase">Aceitando Projetos 2026</span>
             </div>
-            <span class="text-[10px] font-mono tracking-widest text-[#FF007F] uppercase">Arquitetura de Software
-              <br> & Soluções Industriais</span>
+            <span class="text-[10px] font-mono tracking-widest text-[#FF007F] uppercase">Desenvolvimento Front-End
+              <br> & Processos Industriais</span>
           </div>
 
           <h1 class="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-[var(--color-text-pure)] leading-none tracking-brutal uppercase select-none overflow-hidden mt-16 md:mt-0">
@@ -64,7 +64,7 @@
           </h1>
 
           <p class="hero-sub opacity-0 mt-8 md:mt-8 text-base md:text-lg lg:text-xl text-[var(--color-text-muted)] max-w-xl font-normal leading-relaxed hidden md:block">
-            Especialista em otimização extrema de <span class="text-[var(--color-text-pure)] font-mono">PostgreSQL</span> e arquitetura com <span class="text-[var(--color-text-pure)] font-mono">Prisma ORM</span>. Desenvolvendo sistemas inteligentes de alta performance para o chão de fábrica industrial.
+            Especialista em criar interfaces web e mobile com <span class="text-[var(--color-text-pure)] font-mono">Vue.js</span> e <span class="text-[var(--color-text-pure)] font-mono">React Native</span> para digitalizar processos e reduzir desperdícios no chão de fábrica. Unindo código limpo com profundo entendimento da operação industrial.
           </p>
 
           <!-- Desktop Buttons (hidden on mobile) -->
@@ -121,7 +121,7 @@
       <!-- Mobile Paragraph & Buttons (hidden on desktop) — Localizados fora do grid, perto do rodapé com cores vivas e opacidade 100% -->
       <div class="md:hidden flex flex-col items-center gap-4 w-full z-20 relative mt-auto px-4 pb-2">
         <p class="hero-sub opacity-0 text-sm text-[var(--color-text-muted)] text-center max-w-sm font-normal leading-relaxed">
-          Especialista em otimização extrema de <span class="text-[var(--color-text-pure)] font-mono font-semibold">PostgreSQL</span> e arquitetura com <span class="text-[var(--color-text-pure)] font-mono font-semibold">Prisma ORM</span>. Desenvolvendo sistemas inteligentes de alta performance para o chão de fábrica industrial.
+          Especialista em criar interfaces web e mobile com <span class="text-[var(--color-text-pure)] font-mono font-semibold">Vue.js</span> e <span class="text-[var(--color-text-pure)] font-mono font-semibold">React Native</span> para digitalizar processos e reduzir desperdícios no chão de fábrica. Unindo código limpo com profundo entendimento da operação industrial.
         </p>
 
         <div class="hero-buttons opacity-0 w-full flex justify-center flex-wrap gap-3 pointer-events-auto">
