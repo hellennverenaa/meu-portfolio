@@ -2,30 +2,30 @@
 const experiencias = [
   {
     marcador: '§ 01',
-    periodo: '2023 — Presente',
-    cargo: 'Engenheira de Software',
-    empresa: 'Indústria Têxtil — Sistemas Internos',
+    periodo: 'Dez/2025 — Presente',
+    cargo: 'Desenvolvedora Front-End & Automação',
+    empresa: 'Grupo Dass',
     descricao:
-      'Desenvolvimento e manutenção de sistemas internos para gestão de inventário, cálculo de gramatura por máquina ativa e rastreabilidade de matéria-prima. Responsável pelo módulo SCALE (redução de 14% em desperdício) e SobraCorte (reconciliação de inventário em tempo real).',
-    pilha: ['Vue 3', 'Node.js', 'PostgreSQL', 'Prisma'],
+      'Atuação 100% alocada no desenvolvimento de soluções internas, dashboards e automações para o chão de fábrica. Criação de sistemas de alta urgência utilizando JavaScript (Google Apps Script), integrando fluxos de e-mail, bases de dados e hardware (tablets e leitores de QR Code) para otimizar a operação industrial.',
+    pilha: ['JavaScript', 'Google Apps Script', 'Dashboards', 'Automação'],
   },
   {
     marcador: '§ 02',
-    periodo: '2022 — 2023',
-    cargo: 'Desenvolvimento Full-Stack — TCC',
-    empresa: 'Projeto Lunna — Trabalho de Conclusão de Curso',
+    periodo: 'Jul/2025 — Jan/2026',
+    cargo: 'Estagiária de TI / Automação',
+    empresa: 'Grupo Dass',
     descricao:
-      'Concepção e arquitetura de uma plataforma full-stack completa integrando controle de permissões, painéis analíticos e relatórios de produção. Apresentado e defendido com excelência acadêmica.',
-    pilha: ['Full-stack', 'REST API', 'Isolamento de Escopo'],
+      'Levantamento de requisitos e modelagem de regras de negócio para transição de controles manuais para sistemas digitais, conectando TI e chão de fábrica.',
+    pilha: ['Vue 3', 'Node.js', 'Modelagem', 'Mapeamento'],
   },
   {
     marcador: '§ 03',
-    periodo: '2020 — 2022',
-    cargo: 'Estudante de Sistemas de Informação',
-    empresa: 'Formação Acadêmica',
+    periodo: 'Ago/2023 — Dez/2025',
+    cargo: 'Assistente de Consumo / Testes de Produção',
+    empresa: 'Grupo Dass',
     descricao:
-      'Fundamentos sólidos em algoritmos, estruturas de dados, banco de dados relacionais e metodologias ágeis. Primeiro contato com Lean Manufacturing e diagnósticos A3 aplicados ao contexto fabril.',
-    pilha: ['SQL', 'Algoritmos', 'Lean', 'Metodologia A3'],
+      'Análise de dados de consumo real vs. previsto e validação de fluxo produtivo de calçados (Nike/Fila). Experiência fundamental para entender as regras de negócio que hoje aplico na criação de softwares.',
+    pilha: ['Análise de Dados', 'Excel', 'KPIs', 'Processos'],
   },
 ]
 </script>

@@ -22,7 +22,7 @@
               Minha trajetória profissional é fundamentada na vivência industrial real, atuando diretamente em cargos como <strong class="text-[var(--color-text-pure)] font-semibold">Assistente de Consumo</strong> e <strong class="text-[var(--color-text-pure)] font-semibold">Auxiliar de Custos</strong>. Essa experiência prática me deu uma compreensão profunda sobre como identificar e eliminar gargalos de produção no chão de fábrica.
             </p>
             <p class="sobre-text gs-hidden text-[var(--color-text-muted)] text-base md:text-lg leading-relaxed">
-              Essa base operacional e analítica fundamenta diretamente a forma como construo soluções robustas utilizando <strong class="text-[var(--color-text-pure)] font-semibold">Node.js e PostgreSQL</strong>. Desenvolvo sistemas focados na reconciliação precisa de estoque, controle rigoroso de resíduos industriais e rastreamento de desperdícios, conectando regras de negócio complexas à realidade física da produção.
+              Essa base operacional e analítica fundamenta diretamente a forma como construo aplicações web e mobile modernas utilizando <strong class="text-[var(--color-text-pure)] font-semibold">Vue.js e React Native</strong>. Traduzo regras de negócio complexas do chão de fábrica em interfaces intuitivas e eficientes para os usuários, mitigando perdas sistêmicas.
             </p>
           </div>
 

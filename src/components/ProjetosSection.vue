@@ -1,5 +1,5 @@
 <script setup>
-import { Database, Scissors, GraduationCap } from '@lucide/vue'
+import { Database, Scissors, GraduationCap, Settings, Layout } from '@lucide/vue'
 
 const projetos = [
   {
@@ -9,8 +9,21 @@ const projetos = [
     problema:
       'Desvio sistemático no consumo de matéria-prima causado pela ausência de cálculo dinâmico de gramatura exata (g/100m) distribuída por máquina de costura ativa.',
     arquitetura:
-      'Engine de processamento em lote em Node.js com persistência via PostgreSQL e Prisma ORM. O módulo recebe a ordem de produção, calcula o fracionamento de cada insumo por posto de trabalho e reduziu o desperdício em 14%.',
-    pilha: ['Node.js', 'PostgreSQL', 'Prisma', 'Vue 3'],
+      'Construção do front-end reativo em Vue 3 integrado a painéis de acompanhamento e análise detalhada de regras de negócio para o cálculo de gramatura em tempo real. A solução consome uma API em Node.js com banco PostgreSQL e reduziu o desperdício de matéria-prima em 14%.',
+    pilha: ['Vue 3', 'Node.js', 'PostgreSQL', 'Regras de Negócio'],
+    categoria: 'Projeto Corporativo',
+    destaque: true,
+  },
+  {
+    id: 'sic',
+    nome: 'SIC (Sistema Informativo de Comunicados)',
+    icone: Settings,
+    problema:
+      'Entrega de alta urgência solicitada pela gestão para mitigar falhas de comunicação e desvio de informações críticas entre unidades produtivas.',
+    arquitetura:
+      'Sistema automatizado de comunicação no chão de fábrica. Desenvolvi um robô que captura e-mails de modelagem da unidade Sul, processa os dados em um banco centralizado e dispara alertas diretamente para um Dashboard. A interface é acessada pelos operadores bipando o QR Code de cada modelo na linha de produção.',
+    pilha: ['JavaScript', 'Google Apps Script', 'Automação', 'QR Code'],
+    categoria: 'Projeto em Produção',
     destaque: true,
   },
   {
@@ -22,6 +35,19 @@ const projetos = [
     arquitetura:
       'Módulo web reativo em Vue 3 para processamento em lote de saldos de matéria-prima e gestão em tempo real do inventário de cones e devoluções ao estoque central.',
     pilha: ['Vue 3', 'Tailwind CSS', 'Inventário'],
+    categoria: 'Projeto Corporativo',
+    destaque: false,
+  },
+  {
+    id: 'almoxarifado',
+    nome: 'Portal do Almoxarifado',
+    icone: Layout,
+    problema:
+      'Processo de auditoria física de estoque lento, dependente de papelada física e preenchimento de planilhas manuais suscetíveis a erro humano.',
+    arquitetura:
+      'Dashboard responsivo e automatizado criado para ser operado via Tablet no centro de distribuição. Permite a realização de auditorias de estoque em tempo real e alimenta um painel central de controle na nuvem de forma automática.',
+    pilha: ['JavaScript', 'Google Apps Script', 'UI/UX Mobile', 'Tablet First'],
+    categoria: 'Projeto em Produção',
     destaque: false,
   },
   {
@@ -29,10 +55,11 @@ const projetos = [
     nome: 'Projeto Lunna',
     icone: GraduationCap,
     problema:
-      'Requisito acadêmico de conceber uma plataforma estável integrando controle de permissões, painéis analíticos e relatórios de produção.',
+      'Desenvolvimento de um aplicativo de alta performance focado na saúde e bem-estar para controle de rotinas e acompanhamento médico.',
     arquitetura:
-      'Arquitetura full-stack com isolamento de escopo, Node.js no backend e Vue 3 no frontend. Apresentado e defendido com excelência como Trabalho de Conclusão de Curso.',
-    pilha: ['Full-stack', 'REST API', 'Escopo Isolado'],
+      'Desenvolvido inteiramente em React Native no front-end móvel, integrado a uma API REST com isolamento de escopo no back-end. Defendido com nota máxima como Trabalho de Conclusão de Curso.',
+    pilha: ['React Native', 'REST API', 'Saúde'],
+    categoria: 'Projeto Acadêmico',
     destaque: false,
   },
 ]
@@ -83,11 +110,16 @@ const projetos = [
 
           <!-- Cabeçalho do card -->
           <div class="flex items-start justify-between mb-6 md:mb-8 relative z-10">
-            <div class="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rounded-xl
-                        bg-[var(--color-ultraviolet)]/10 text-[var(--color-ultraviolet)] border border-[var(--color-ultraviolet)]/15
-                        group-hover:text-[var(--color-magenta)] group-hover:border-[var(--color-magenta)]/30
-                        group-hover:rotate-6 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
-              <component :is="projeto.icone" class="w-4 md:w-5 h-4 md:h-5" />
+            <div class="flex items-center gap-3">
+              <div class="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rounded-xl
+                          bg-[var(--color-ultraviolet)]/10 text-[var(--color-ultraviolet)] border border-[var(--color-ultraviolet)]/15
+                          group-hover:text-[var(--color-magenta)] group-hover:border-[var(--color-magenta)]/30
+                          group-hover:rotate-6 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+                <component :is="projeto.icone" class="w-4 md:w-5 h-4 md:h-5" />
+              </div>
+              <span v-if="projeto.categoria" class="px-2.5 py-1 font-mono text-[8px] tracking-wider uppercase bg-[var(--color-magenta)]/10 text-[var(--color-magenta)] rounded border border-[var(--color-magenta)]/25">
+                {{ projeto.categoria }}
+              </span>
             </div>
             <span class="font-mono text-[10px] tracking-[0.2em] uppercase text-[var(--color-text-muted)]/50 mt-2">
               § {{ String(index + 1).padStart(2, '0') }}

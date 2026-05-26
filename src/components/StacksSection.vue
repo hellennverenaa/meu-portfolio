@@ -7,55 +7,66 @@ const categorias = [
     icone: '◇',
     techs: [
       { nome: 'Vue 3', nivel: 'Avançado', destaque: true },
-      { nome: 'TypeScript', nivel: 'Avançado', destaque: true },
+      { nome: 'JavaScript', nivel: 'Avançado', destaque: true },
       { nome: 'Tailwind CSS', nivel: 'Avançado', destaque: false },
       { nome: 'GSAP', nivel: 'Intermediário', destaque: false },
       { nome: 'Vite', nivel: 'Avançado', destaque: false },
     ]
   },
   {
-    titulo: 'Backend',
-    descricao: 'APIs robustas e escaláveis',
+    titulo: 'Backend & DB',
+    descricao: 'APIs, regras de negócio e dados',
     icone: '⬡',
     techs: [
-      { nome: 'Node.js', nivel: 'Avançado', destaque: true },
-      { nome: 'Express', nivel: 'Avançado', destaque: false },
-      { nome: 'Prisma ORM', nivel: 'Avançado', destaque: true },
-      { nome: 'REST API', nivel: 'Avançado', destaque: false },
-      { nome: 'JWT / Auth', nivel: 'Intermediário', destaque: false },
+      { nome: 'Node.js', nivel: 'Intermediário', destaque: true },
+      { nome: 'Java (Spring Boot)', nivel: 'Básico', destaque: false },
+      { nome: 'Prisma ORM', nivel: 'Básico', destaque: false },
+      { nome: 'PostgreSQL', nivel: 'Básico', destaque: false },
     ]
   },
   {
-    titulo: 'Mobile',
-    descricao: 'Apps nativos e multiplataforma',
+    titulo: 'Desenvolvimento Mobile & Design',
+    descricao: 'Aplicativos nativos e UX/UI',
     icone: '◈',
     techs: [
-      { nome: 'React Native', nivel: 'Intermediário', destaque: false },
-      { nome: 'Expo', nivel: 'Intermediário', destaque: false },
-      { nome: 'Capacitor', nivel: 'Básico', destaque: false },
+      { nome: 'React Native', nivel: 'Intermediário', destaque: true },
+      { nome: 'Expo', nivel: 'Intermediário', destaque: true },
+      { nome: 'Figma', nivel: 'Intermediário', destaque: false },
+      { nome: 'UI/UX Design', nivel: 'Intermediário', destaque: false },
     ]
   },
   {
-    titulo: 'Bancos de Dados',
-    descricao: 'Modelagem e otimização de queries',
-    icone: '⊡',
-    techs: [
-      { nome: 'PostgreSQL', nivel: 'Avançado', destaque: true },
-      { nome: 'MySQL', nivel: 'Avançado', destaque: false },
-      { nome: 'Redis', nivel: 'Intermediário', destaque: false },
-      { nome: 'MongoDB', nivel: 'Intermediário', destaque: false },
-    ]
-  },
-  {
-    titulo: 'Cloud & DevOps',
-    descricao: 'Deploy, CI/CD e infraestrutura',
+    titulo: 'DevTools & IA',
+    descricao: 'Versionamento, deploys e inteligência',
     icone: '△',
     techs: [
-      { nome: 'Git', nivel: 'Avançado', destaque: true },
+      { nome: 'Git / GitHub', nivel: 'Avançado', destaque: true },
+      { nome: 'GitHub Copilot', nivel: 'Avançado', destaque: false },
       { nome: 'Docker', nivel: 'Intermediário', destaque: false },
-      { nome: 'GitHub Actions', nivel: 'Intermediário', destaque: false },
-      { nome: 'Vercel', nivel: 'Avançado', destaque: false },
-      { nome: 'Linux', nivel: 'Intermediário', destaque: false },
+      { nome: 'Postman', nivel: 'Intermediário', destaque: false },
+    ]
+  },
+  {
+    titulo: 'Automação & Dados',
+    descricao: 'Scripting e análise operacional',
+    icone: '⊡',
+    techs: [
+      { nome: 'Excel Avançado', nivel: 'Avançado', destaque: true },
+      { nome: 'Análise de KPIs', nivel: 'Avançado', destaque: true },
+      { nome: 'Google Apps Script', nivel: 'Intermediário', destaque: false },
+      { nome: 'Python', nivel: 'Básico', destaque: false },
+    ]
+  },
+  {
+    titulo: 'Processos & Agilidade',
+    descricao: 'Organização, agilidade e qualidade',
+    icone: '❖',
+    techs: [
+      { nome: 'Mapeamento A3', nivel: 'Avançado', destaque: true },
+      { nome: 'Quality Assurance (QA)', nivel: 'Avançado', destaque: false },
+      { nome: 'Metodologias Ágeis (Scrum)', nivel: 'Intermediário', destaque: false },
+      { nome: 'Jira / Trello', nivel: 'Intermediário', destaque: false },
+      { nome: 'Notion / Obsidian', nivel: 'Intermediário', destaque: false },
     ]
   },
 ]
