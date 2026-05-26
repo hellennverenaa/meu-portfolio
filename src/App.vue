@@ -26,13 +26,12 @@ function aoRolar() {
 function inicializarAnimacoes() {
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // 1. HERO: Entrada inicial sequencial
+  // 1. HERO: Entrada inicial sequencial (o crachá tem sua própria animação)
   // ═══════════════════════════════════════════════════════════════════════════
   gsap.set('.hero-badge', { opacity: 0, y: 20 })
   gsap.set('.hero-title .gs-hidden', { opacity: 0, y: 60 })
   gsap.set('.hero-sub', { opacity: 0, y: 30 })
   gsap.set('.hero-buttons', { opacity: 0, y: 30 })
-  gsap.set('.hero-photo', { opacity: 0, scale: 0.9 })
   gsap.set('.hero-footer', { opacity: 0, y: 20 })
 
   const tlHero = gsap.timeline({ defaults: { ease: 'power3.out' } })
@@ -44,17 +43,30 @@ function inicializarAnimacoes() {
     }, '-=0.4')
     .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
     .to('.hero-buttons', { opacity: 1, y: 0, duration: 0.8 }, '-=0.4')
-    .to('.hero-photo', { opacity: 1, scale: 1, duration: 1 }, '-=0.6')
-    .to('.hero-footer', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
+    .to('.hero-footer', { opacity: 1, y: 0, duration: 0.6 }, '-=0.3')
 
   // ═══════════════════════════════════════════════════════════════════════════
   // 2. A GRANDE TRANSIÇÃO: Hero → Sobre Mim (ScrollTrigger)
-  //    O crachá flutuante desaparece suavemente ao rolar, preparando
-  //    a entrada da SobreMimSection.
+  //    O crachá e o cordão desaparecem ao rolar
   // ═══════════════════════════════════════════════════════════════════════════
   const floatingCard = document.querySelector('.floating-card')
+  const cordSvg = document.querySelector('.hero-section svg')
   if (floatingCard) {
     gsap.to(floatingCard, {
+      scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'top top',
+        end: '+=500',
+        scrub: 1,
+      },
+      opacity: 0,
+      scale: 0.8,
+      y: -50,
+      ease: 'none'
+    })
+  }
+  if (cordSvg) {
+    gsap.to(cordSvg, {
       scrollTrigger: {
         trigger: '.hero-section',
         start: 'top top',
@@ -62,8 +74,6 @@ function inicializarAnimacoes() {
         scrub: 1,
       },
       opacity: 0,
-      scale: 0.8,
-      y: -40,
       ease: 'none'
     })
   }
@@ -176,7 +186,6 @@ function inicializarAnimacoes() {
     })
   }
 
-  // Cabeçalho da timeline
   gsap.utils.toArray('.timeline-label, .timeline-title').forEach(el => {
     gsap.set(el, { opacity: 0, y: 40 })
     gsap.to(el, {
@@ -190,7 +199,6 @@ function inicializarAnimacoes() {
     })
   })
 
-  // Items da timeline — revelação individual com scrub
   gsap.utils.toArray('.timeline-item').forEach((el) => {
     gsap.set(el, { opacity: 0, x: -40 })
     gsap.to(el, {
@@ -225,7 +233,8 @@ function inicializarAnimacoes() {
 
 // ─── Lifecycle ──────────────────────────────────────────────────────────────
 onMounted(() => {
-  document.documentElement.classList.add('dark')
+  // O tema dark é definido pelo index.html (<html class="dark">)
+  // e controlado pelo NavBar. Não forçamos aqui.
   window.addEventListener('scroll', aoRolar, { passive: true })
 
   nextTick(() => {
@@ -237,14 +246,13 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', aoRolar)
-  // Limpeza rigorosa de TODAS as instâncias GSAP (evitar vazamento)
   ScrollTrigger.getAll().forEach(st => st.kill())
   gsap.killTweensOf('*')
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-pure)] antialiased">
+  <div class="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-pure)] antialiased overflow-x-hidden">
     <NavBar :scrollY="scrollY" />
     <HeroSection />
     <SobreMimSection />

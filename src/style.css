@@ -1,46 +1,48 @@
 @import "tailwindcss";
 
 @theme {
-  /* Paleta Alta Tecnologia Industrial - Edição Acheron (Padrão v4) */
-  --color-bg-main: #06020D;
-  /* Preto Espacial Profundo */
-  --color-bg-surface: #120A21;
-  /* Superfície Profunda */
-  --color-text-pure: #F4F6FF;
-  /* Branco Gelo */
-  --color-text-muted: #A3ADC2;
-  /* Gelo Oculto */
-  --color-border: #2D2A3B;
-  /* Grafite Frio */
-
-  /* Cores de Impacto (Néon) */
+  /* Cores de Impacto — Invariáveis entre temas */
   --color-ultraviolet: #7000FF;
-  /* Destaque Principal */
   --color-magenta: #FF007F;
-  /* Hover e Microinterações */
   --color-terminal: #39FF14;
-  /* Sucesso / Código */
 }
 
 @layer base {
+  /* ═══ Tema Claro ═══ */
+  :root {
+    --color-bg-main: #F5F3FF;
+    --color-bg-surface: #FFFFFF;
+    --color-text-pure: #16102B;
+    --color-text-muted: #6B6580;
+    --color-border: #E2DFF0;
+  }
+
+  /* ═══ Tema Escuro — Estética Acheron ═══ */
+  .dark {
+    --color-bg-main: #06020D;
+    --color-bg-surface: #120A21;
+    --color-text-pure: #F4F6FF;
+    --color-text-muted: #A3ADC2;
+    --color-border: #2D2A3B;
+  }
+
   body {
     background-color: var(--color-bg-main);
     color: var(--color-text-pure);
     font-family: 'Geist', 'Inter', -apple-system, sans-serif;
     overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
   }
 }
 
-/* Animação Orgânica Fluida para o Crachá (Inspirado no Rifqi) */
+/* ─── Animação Orgânica Fluida para o Crachá ─────────────────────────────── */
 @keyframes blob-morph {
   0% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
   }
-
   50% {
     border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
   }
-
   100% {
     border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
   }
@@ -50,30 +52,12 @@
   animation: blob-morph 8s ease-in-out infinite;
 }
 
-/* Tipografia Estilo Thainan (Espaçamento ultra-reduzido) */
+/* ─── Tipografia Estilo Brutalista ───────────────────────────────────────── */
 .tracking-brutal {
   letter-spacing: -0.05em;
 }
 
-/* Custom Scrollbar Cyberpunk */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-bg-main);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-ultraviolet);
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-magenta);
-}
-
-/* Marquee Infinite Scroll Animation */
+/* ─── Marquee Infinite Scroll ────────────────────────────────────────────── */
 @keyframes marquee {
   0% {
     transform: translateX(0);
@@ -91,18 +75,51 @@
   animation-play-state: paused;
 }
 
-/* GSAP ScrollTrigger — prevent layout shift on pin */
+/* ─── Custom Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-ultraviolet);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-magenta);
+}
+
+/* ─── GSAP ScrollTrigger — prevent layout shift on pin ───────────────────── */
 .pin-spacer {
   overflow: visible !important;
 }
 
-/* Smooth scroll base */
+/* ─── Smooth scroll base ─────────────────────────────────────────────────── */
 html {
-  scroll-behavior: auto; /* GSAP handles scroll, avoid CSS conflicts */
+  scroll-behavior: auto;
 }
 
-/* Selection colors */
+/* ─── Selection colors ───────────────────────────────────────────────────── */
 ::selection {
   background: rgba(112, 0, 255, 0.3);
   color: var(--color-text-pure);
+}
+
+/* ─── Transição suave de tema para todos os elementos ────────────────────── */
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+  transition-duration: 0s;
+  transition-timing-function: ease;
+}
+
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition-duration: 0.4s !important;
 }
