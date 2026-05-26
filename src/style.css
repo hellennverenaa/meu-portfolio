@@ -1,88 +1,108 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   DESIGN TOKENS — Paleta Editorial Premium
-   ═══════════════════════════════════════════════════════════════════════════ */
-
 @theme {
-  --color-bg: #0F0E0C;
-  --color-surface: #1C1A17;
-  --color-border: #2E2B27;
-  --color-text: #EDE8DF;
-  --color-muted: #7A7570;
-  --color-accent: #C96442;
-  --color-accent-dim: rgba(201, 100, 66, 0.12);
+  /* Paleta Alta Tecnologia Industrial - Edição Acheron (Padrão v4) */
+  --color-bg-main: #06020D;
+  /* Preto Espacial Profundo */
+  --color-bg-surface: #120A21;
+  /* Superfície Profunda */
+  --color-text-pure: #F4F6FF;
+  /* Branco Gelo */
+  --color-text-muted: #A3ADC2;
+  /* Gelo Oculto */
+  --color-border: #2D2A3B;
+  /* Grafite Frio */
 
-  --font-editorial: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  /* Cores de Impacto (Néon) */
+  --color-ultraviolet: #7000FF;
+  /* Destaque Principal */
+  --color-magenta: #FF007F;
+  /* Hover e Microinterações */
+  --color-terminal: #39FF14;
+  /* Sucesso / Código */
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   BASE RESETS & TYPOGRAPHY
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-html {
-  scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer base {
+  body {
+    background-color: var(--color-bg-main);
+    color: var(--color-text-pure);
+    font-family: 'Geist', 'Inter', -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-body);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  overflow-x: hidden;
+/* Animação Orgânica Fluida para o Crachá (Inspirado no Rifqi) */
+@keyframes blob-morph {
+  0% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
+
+  50% {
+    border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%;
+  }
+
+  100% {
+    border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%;
+  }
 }
 
-::selection {
-  background-color: rgba(201, 100, 66, 0.25);
-  color: #EDE8DF;
+.animate-blob-morph {
+  animation: blob-morph 8s ease-in-out infinite;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   CUSTOM SCROLLBAR — Premium
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* Tipografia Estilo Thainan (Espaçamento ultra-reduzido) */
+.tracking-brutal {
+  letter-spacing: -0.05em;
+}
 
+/* Custom Scrollbar Cyberpunk */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
+
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-bg-main);
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
-  border-radius: 100px;
-  border: 2px solid var(--color-bg);
+  background: var(--color-ultraviolet);
+  border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background-color: var(--color-muted);
+  background: var(--color-magenta);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   MARQUEE ANIMATION — Infinite scroll loop CSS puro
-   ═══════════════════════════════════════════════════════════════════════════ */
-
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+/* Marquee Infinite Scroll Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 .marquee-track {
-  animation: marquee-scroll 30s linear infinite;
+  animation: marquee 30s linear infinite;
 }
 
 .marquee-track:hover {
   animation-play-state: paused;
 }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   GSAP INITIAL STATES — para evitar flash de conteúdo
-   ═══════════════════════════════════════════════════════════════════════════ */
+/* GSAP ScrollTrigger — prevent layout shift on pin */
+.pin-spacer {
+  overflow: visible !important;
+}
 
-.gs-hidden {
-  opacity: 0;
-  visibility: hidden;
+/* Smooth scroll base */
+html {
+  scroll-behavior: auto; /* GSAP handles scroll, avoid CSS conflicts */
+}
+
+/* Selection colors */
+::selection {
+  background: rgba(112, 0, 255, 0.3);
+  color: var(--color-text-pure);
 }

@@ -5,6 +5,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import NavBar from './components/NavBar.vue'
 import HeroSection from './components/HeroSection.vue'
+import SobreMimSection from './components/SobreMimSection.vue'
+import ServicosSection from './components/ServicosSection.vue'
 import MarqueeBand from './components/MarqueeBand.vue'
 import ProjetosSection from './components/ProjetosSection.vue'
 import TimelineSection from './components/TimelineSection.vue'
@@ -22,38 +24,113 @@ function aoRolar() {
 
 // ─── Motor de Animação GSAP — Scrollytelling ────────────────────────────────
 function inicializarAnimacoes() {
-  // ─── HERO: Entrada inicial sequencial ─────────────────────────────────
-  const tlHero = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-  tlHero
-    .to('.hero-badge', {
-      opacity: 1, visibility: 'visible', y: 0, duration: 0.8
-    })
-    .to('.hero-title .gs-hidden', {
-      opacity: 1, visibility: 'visible', y: 0, duration: 1,
-      stagger: 0.12
-    }, '-=0.4')
-    .to('.hero-sub', {
-      opacity: 1, visibility: 'visible', y: 0, duration: 0.8
-    }, '-=0.5')
-    .to('.hero-buttons', {
-      opacity: 1, visibility: 'visible', y: 0, duration: 0.8
-    }, '-=0.4')
-    .to('.hero-photo', {
-      opacity: 1, visibility: 'visible', scale: 1, duration: 1
-    }, '-=0.6')
-
-  // Preparar estados iniciais do hero
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 1. HERO: Entrada inicial sequencial
+  // ═══════════════════════════════════════════════════════════════════════════
   gsap.set('.hero-badge', { opacity: 0, y: 20 })
   gsap.set('.hero-title .gs-hidden', { opacity: 0, y: 60 })
   gsap.set('.hero-sub', { opacity: 0, y: 30 })
   gsap.set('.hero-buttons', { opacity: 0, y: 30 })
   gsap.set('.hero-photo', { opacity: 0, scale: 0.9 })
+  gsap.set('.hero-footer', { opacity: 0, y: 20 })
 
-  // Iniciar a timeline
-  tlHero.play()
+  const tlHero = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
-  // ─── PROJETOS: Revelação com scroll ───────────────────────────────────
+  tlHero
+    .to('.hero-badge', { opacity: 1, y: 0, duration: 0.8 })
+    .to('.hero-title .gs-hidden', {
+      opacity: 1, y: 0, duration: 1, stagger: 0.12
+    }, '-=0.4')
+    .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
+    .to('.hero-buttons', { opacity: 1, y: 0, duration: 0.8 }, '-=0.4')
+    .to('.hero-photo', { opacity: 1, scale: 1, duration: 1 }, '-=0.6')
+    .to('.hero-footer', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 2. A GRANDE TRANSIÇÃO: Hero → Sobre Mim (ScrollTrigger)
+  //    O crachá flutuante desaparece suavemente ao rolar, preparando
+  //    a entrada da SobreMimSection.
+  // ═══════════════════════════════════════════════════════════════════════════
+  const floatingCard = document.querySelector('.floating-card')
+  if (floatingCard) {
+    gsap.to(floatingCard, {
+      scrollTrigger: {
+        trigger: '.hero-section',
+        start: 'top top',
+        end: '+=400',
+        scrub: 1,
+      },
+      opacity: 0,
+      scale: 0.8,
+      y: -40,
+      ease: 'none'
+    })
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 3. SOBRE MIM: Revelação sequencial com scroll
+  // ═══════════════════════════════════════════════════════════════════════════
+  gsap.utils.toArray('.sobre-label, .sobre-title').forEach(el => {
+    gsap.set(el, { opacity: 0, y: 40 })
+    gsap.to(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1, y: 0,
+      duration: 0.8, ease: 'power3.out'
+    })
+  })
+
+  gsap.utils.toArray('.sobre-text, .sobre-stat, .sobre-comp, .sobre-photo').forEach((el, i) => {
+    gsap.set(el, { opacity: 0, y: 30 })
+    gsap.to(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1, y: 0,
+      duration: 0.7, ease: 'power3.out',
+      delay: (i % 4) * 0.06
+    })
+  })
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 4. SERVIÇOS: Cards com stagger
+  // ═══════════════════════════════════════════════════════════════════════════
+  gsap.utils.toArray('.servico-label, .servico-title, .servico-desc').forEach(el => {
+    gsap.set(el, { opacity: 0, y: 40 })
+    gsap.to(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 85%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1, y: 0,
+      duration: 0.8, ease: 'power3.out'
+    })
+  })
+
+  gsap.utils.toArray('.servico-card').forEach((el, i) => {
+    gsap.set(el, { opacity: 0, y: 50 })
+    gsap.to(el, {
+      scrollTrigger: {
+        trigger: el,
+        start: 'top 88%',
+        toggleActions: 'play none none none',
+      },
+      opacity: 1, y: 0,
+      duration: 0.9, ease: 'power3.out',
+      delay: i * 0.15
+    })
+  })
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 5. PROJETOS: Revelação com scroll
+  // ═══════════════════════════════════════════════════════════════════════════
   gsap.utils.toArray('.projeto-label, .projeto-title, .projeto-desc').forEach(el => {
     gsap.set(el, { opacity: 0, y: 40 })
     gsap.to(el, {
@@ -62,7 +139,7 @@ function inicializarAnimacoes() {
         start: 'top 85%',
         toggleActions: 'play none none none',
       },
-      opacity: 1, visibility: 'visible', y: 0,
+      opacity: 1, y: 0,
       duration: 0.8, ease: 'power3.out'
     })
   })
@@ -75,14 +152,15 @@ function inicializarAnimacoes() {
         start: 'top 88%',
         toggleActions: 'play none none none',
       },
-      opacity: 1, visibility: 'visible', y: 0,
+      opacity: 1, y: 0,
       duration: 0.9, ease: 'power3.out',
       delay: i * 0.1
     })
   })
 
-  // ─── TIMELINE (CARREIRA): Scrollytelling com scrub ────────────────────
-  // Fio cresce com o scroll
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 6. TIMELINE (CARREIRA): Scrollytelling com scrub
+  // ═══════════════════════════════════════════════════════════════════════════
   const timelineLine = document.querySelector('.timeline-line')
   if (timelineLine) {
     gsap.set(timelineLine, { scaleY: 0 })
@@ -107,13 +185,13 @@ function inicializarAnimacoes() {
         start: 'top 85%',
         toggleActions: 'play none none none',
       },
-      opacity: 1, visibility: 'visible', y: 0,
+      opacity: 1, y: 0,
       duration: 0.8, ease: 'power3.out'
     })
   })
 
-  // Items da timeline — revelação individual
-  gsap.utils.toArray('.timeline-item').forEach((el, i) => {
+  // Items da timeline — revelação individual com scrub
+  gsap.utils.toArray('.timeline-item').forEach((el) => {
     gsap.set(el, { opacity: 0, x: -40 })
     gsap.to(el, {
       scrollTrigger: {
@@ -122,27 +200,14 @@ function inicializarAnimacoes() {
         end: 'top 50%',
         scrub: 1,
       },
-      opacity: 1, visibility: 'visible', x: 0,
+      opacity: 1, x: 0,
       ease: 'power3.out'
     })
   })
 
-  // ─── SOBRE: Revelação sequencial ──────────────────────────────────────
-  gsap.utils.toArray('.sobre-label, .sobre-title, .sobre-text, .sobre-stat, .sobre-comp').forEach((el, i) => {
-    gsap.set(el, { opacity: 0, y: 30 })
-    gsap.to(el, {
-      scrollTrigger: {
-        trigger: el,
-        start: 'top 88%',
-        toggleActions: 'play none none none',
-      },
-      opacity: 1, visibility: 'visible', y: 0,
-      duration: 0.7, ease: 'power3.out',
-      delay: (i % 4) * 0.06
-    })
-  })
-
-  // ─── CONTATO: Revelação ───────────────────────────────────────────────
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 7. CONTATO: Revelação sequencial
+  // ═══════════════════════════════════════════════════════════════════════════
   gsap.utils.toArray('.contato-label, .contato-title, .contato-text, .contato-cta').forEach((el, i) => {
     gsap.set(el, { opacity: 0, y: 30 })
     gsap.to(el, {
@@ -151,7 +216,7 @@ function inicializarAnimacoes() {
         start: 'top 88%',
         toggleActions: 'play none none none',
       },
-      opacity: 1, visibility: 'visible', y: 0,
+      opacity: 1, y: 0,
       duration: 0.8, ease: 'power3.out',
       delay: i * 0.1
     })
@@ -164,7 +229,6 @@ onMounted(() => {
   window.addEventListener('scroll', aoRolar, { passive: true })
 
   nextTick(() => {
-    // Pequeno delay para garantir que o DOM está renderizado
     requestAnimationFrame(() => {
       inicializarAnimacoes()
     })
@@ -173,14 +237,18 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', aoRolar)
+  // Limpeza rigorosa de TODAS as instâncias GSAP (evitar vazamento)
   ScrollTrigger.getAll().forEach(st => st.kill())
+  gsap.killTweensOf('*')
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0F0E0C] text-[#EDE8DF] antialiased">
+  <div class="min-h-screen bg-[var(--color-bg-main)] text-[var(--color-text-pure)] antialiased">
     <NavBar :scrollY="scrollY" />
     <HeroSection />
+    <SobreMimSection />
+    <ServicosSection />
     <MarqueeBand />
     <ProjetosSection />
     <TimelineSection />

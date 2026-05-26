@@ -33,7 +33,7 @@ const progressoLeitura = computed(() => {
       'fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-out',
       'flex items-center justify-between px-6 md:px-12 lg:px-16',
       headerOpaco
-        ? 'py-4 bg-[#0F0E0C]/90 backdrop-blur-2xl border-b border-[#2E2B27]/50'
+        ? 'py-4 bg-[var(--color-bg-main)]/90 backdrop-blur-2xl border-b border-[var(--color-border)]/50'
         : 'py-8 bg-transparent border-b border-transparent'
     ]"
   >
@@ -43,10 +43,10 @@ const progressoLeitura = computed(() => {
       @click.prevent="irPara('inicio')"
       class="group flex items-baseline gap-0.5 cursor-pointer"
     >
-      <span class="font-[family-name:var(--font-editorial)] text-xl font-bold tracking-tighter text-[#EDE8DF] group-hover:text-[#C96442] transition-colors duration-300">
+      <span class="text-xl font-bold tracking-tighter text-[var(--color-text-pure)] group-hover:text-[var(--color-magenta)] transition-colors duration-300">
         hellen
       </span>
-      <span class="font-[family-name:var(--font-mono)] text-xs text-[#7A7570] group-hover:text-[#C96442]/60 transition-colors duration-300">
+      <span class="font-mono text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-magenta)]/60 transition-colors duration-300">
         .dev
       </span>
     </a>
@@ -55,18 +55,19 @@ const progressoLeitura = computed(() => {
     <nav class="hidden md:flex items-center gap-10">
       <a
         v-for="item in [
+          { label: 'Sobre', id: 'sobre' },
+          { label: 'Serviços', id: 'servicos' },
           { label: 'Projetos', id: 'projetos' },
           { label: 'Carreira', id: 'carreira' },
-          { label: 'Sobre', id: 'sobre' },
           { label: 'Contato', id: 'contato' },
         ]"
         :key="item.id"
         :href="'#' + item.id"
         @click.prevent="irPara(item.id)"
-        class="relative font-[family-name:var(--font-mono)] text-xs font-medium tracking-widest uppercase
-               text-[#7A7570] hover:text-[#EDE8DF]
+        class="relative font-mono text-xs font-medium tracking-widest uppercase
+               text-[var(--color-text-muted)] hover:text-[var(--color-text-pure)]
                transition-colors duration-300
-               after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[#C96442]
+               after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[var(--color-magenta)]
                hover:after:w-full after:transition-all after:duration-500 after:ease-[cubic-bezier(0.25,1,0.5,1)]"
       >
         {{ item.label }}
@@ -79,10 +80,10 @@ const progressoLeitura = computed(() => {
         @click="alternarTema"
         aria-label="Alternar tema"
         class="p-2.5 rounded-full
-               border border-[#2E2B27] bg-transparent
-               text-[#7A7570] hover:text-[#C96442] hover:border-[#C96442]/40
+               border border-[var(--color-border)] bg-transparent
+               text-[var(--color-text-muted)] hover:text-[var(--color-magenta)] hover:border-[var(--color-magenta)]/40
                active:scale-90
-               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C96442]/50
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50
                transform-gpu transition-all duration-300 ease-out cursor-pointer"
       >
         <Sun v-if="modoEscuro" class="w-4 h-4" />
@@ -90,9 +91,13 @@ const progressoLeitura = computed(() => {
       </button>
     </div>
 
-    <!-- Barra de progresso de leitura -->
-    <div class="absolute bottom-0 left-0 h-px bg-[#C96442]/60 transition-all duration-150 ease-out"
-         :style="{ width: `${progressoLeitura}%` }"
+    <!-- Barra de progresso de leitura — gradiente Ultravioleta → Magenta -->
+    <div
+      class="absolute bottom-0 left-0 h-px transition-all duration-150 ease-out"
+      :style="{
+        width: `${progressoLeitura}%`,
+        background: 'linear-gradient(to right, var(--color-ultraviolet), var(--color-magenta))'
+      }"
     />
   </header>
 </template>

@@ -1,229 +1,189 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { ArrowRight, Download } from '@lucide/vue'
-
-// ─── Canvas de Partículas Terracotta ─────────────────────────────────────────
-const referenciaCanvas = ref(null)
-let idAnimacao = null
-const cursor = { x: -9999, y: -9999 }
-
-function inicializarCanvas() {
-  const tela = referenciaCanvas.value
-  if (!tela) return
-  const ctx = tela.getContext('2d')
-
-  const TOTAL = 70
-  let particulas = []
-  let larguraLogica = 0
-  let alturaLogica = 0
-
-  function redimensionar() {
-    const dpr = window.devicePixelRatio || 1
-    larguraLogica = tela.offsetWidth
-    alturaLogica = tela.offsetHeight
-    tela.width = larguraLogica * dpr
-    tela.height = alturaLogica * dpr
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-  }
-
-  class Particula {
-    constructor() { this.reposicionar() }
-    reposicionar() {
-      this.x = Math.random() * larguraLogica
-      this.y = Math.random() * alturaLogica
-      this.vx = (Math.random() - 0.5) * 0.25
-      this.vy = (Math.random() - 0.5) * 0.25
-      this.raio = Math.random() * 1.2 + 0.4
-      this.opacidade = Math.random() * 0.3 + 0.08
-    }
-    atualizar() {
-      this.x += this.vx
-      this.y += this.vy
-      if (this.x < 0) this.x = larguraLogica
-      if (this.x > larguraLogica) this.x = 0
-      if (this.y < 0) this.y = alturaLogica
-      if (this.y > alturaLogica) this.y = 0
-    }
-    desenhar() {
-      ctx.beginPath()
-      ctx.arc(this.x, this.y, this.raio, 0, Math.PI * 2)
-      ctx.fillStyle = `rgba(201, 100, 66, ${this.opacidade})`
-      ctx.fill()
-    }
-  }
-
-  function desenharConstelacao() {
-    const raio = 140
-    for (let i = 0; i < particulas.length; i++) {
-      const p = particulas[i]
-      const dx = cursor.x - p.x
-      const dy = cursor.y - p.y
-      const dist = Math.sqrt(dx * dx + dy * dy)
-      if (dist < raio) {
-        const intensidade = 1 - dist / raio
-        ctx.beginPath()
-        ctx.moveTo(cursor.x, cursor.y)
-        ctx.lineTo(p.x, p.y)
-        ctx.strokeStyle = `rgba(201, 100, 66, ${intensidade * 0.25})`
-        ctx.lineWidth = intensidade * 1.2
-        ctx.stroke()
-      }
-    }
-  }
-
-  function renderizar() {
-    ctx.clearRect(0, 0, larguraLogica, alturaLogica)
-    for (const p of particulas) { p.atualizar(); p.desenhar() }
-    desenharConstelacao()
-    idAnimacao = requestAnimationFrame(renderizar)
-  }
-
-  redimensionar()
-  particulas = Array.from({ length: TOTAL }, () => new Particula())
-  const aoRedimensionar = () => { redimensionar(); particulas.forEach(p => p.reposicionar()) }
-  window.addEventListener('resize', aoRedimensionar)
-  renderizar()
-
-  onUnmounted(() => {
-    cancelAnimationFrame(idAnimacao)
-    window.removeEventListener('resize', aoRedimensionar)
-  })
-}
-
-function aoMoverCursor(e) {
-  const rect = referenciaCanvas.value?.getBoundingClientRect()
-  if (!rect) return
-  cursor.x = e.clientX - rect.left
-  cursor.y = e.clientY - rect.top
-}
-function aoSairDaTela() { cursor.x = -9999; cursor.y = -9999 }
-
-onMounted(() => inicializarCanvas())
-
-function irPara(id) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-}
-</script>
-
 <template>
-  <section
-    id="inicio"
-    class="relative min-h-screen flex items-center overflow-hidden"
-    @pointermove="aoMoverCursor"
-    @pointerleave="aoSairDaTela"
-  >
-    <!-- Canvas de partículas -->
-    <canvas
-      ref="referenciaCanvas"
-      class="absolute inset-0 w-full h-full z-0 transform-gpu will-change-transform opacity-60"
-    />
+  <section id="inicio" class="hero-section relative min-h-screen flex flex-col justify-between pt-28 pb-12 px-6 max-w-7xl mx-auto z-10 overflow-hidden">
+    <canvas ref="particleCanvas" class="absolute inset-0 pointer-events-none z-0"></canvas>
 
-    <!-- Glow orgânico difuso -->
-    <div
-      class="absolute top-1/3 left-1/4 w-[500px] h-[500px] pointer-events-none z-[1]
-             bg-[#C96442]/[0.06] blur-[120px] rounded-[40%_60%_65%_35%/45%_35%_65%_55%]"
-    />
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center z-10 w-full my-auto">
 
-    <!-- Conteúdo principal -->
-    <div class="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 py-32 md:py-40">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
-
-        <!-- Coluna esquerda: texto -->
-        <div class="lg:col-span-7 flex flex-col gap-10">
-          <!-- Badge -->
-          <div class="hero-badge gs-hidden inline-flex items-center gap-3 self-start
-                      px-4 py-2 border border-[#2E2B27] rounded-full">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C96442] opacity-50"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-[#C96442]"></span>
-            </span>
-            <span class="font-[family-name:var(--font-mono)] text-[11px] font-medium tracking-[0.15em] uppercase text-[#7A7570]">
-              Disponível para projetos
-            </span>
-          </div>
-
-          <!-- Título editorial -->
-          <h1 class="hero-title font-[family-name:var(--font-editorial)] text-[clamp(2.8rem,8vw,6.5rem)] font-bold tracking-[-0.04em] leading-[0.9] text-[#EDE8DF]">
-            <span class="gs-hidden inline-block">Engenharia</span>
-            <br />
-            <span class="gs-hidden inline-block">de Software</span>
-            <br />
-            <span class="gs-hidden inline-block text-[#C96442]">Industrial.</span>
-          </h1>
-
-          <!-- Subtítulo -->
-          <p class="hero-sub gs-hidden font-[family-name:var(--font-body)] text-lg md:text-xl text-[#7A7570] max-w-xl leading-relaxed">
-            Sistemas de alta performance moldados para o chão de fábrica.
-            Redução de desperdício, controle de inventário e otimização
-            impiedosa de processos produtivos.
-          </p>
-
-          <!-- Botões -->
-          <div class="hero-buttons gs-hidden flex flex-wrap items-center gap-5 mt-2">
-            <!-- Botão Primário: Projetos -->
-            <button
-              @click="irPara('projetos')"
-              class="group inline-flex items-center gap-3 px-8 py-4
-                     bg-[#C96442] text-[#0F0E0C] font-bold text-sm tracking-wide
-                     rounded-full
-                     shadow-[0_4px_20px_rgba(201,100,66,0.25)]
-                     hover:shadow-[0_8px_30px_rgba(201,100,66,0.35)] hover:-translate-y-0.5
-                     active:scale-95 active:translate-y-0
-                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C96442]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F0E0C]
-                     transform-gpu transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-                     cursor-pointer"
-            >
-              Ver Projetos
-              <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
-            </button>
-
-            <!-- Botão Secundário: Baixar CV -->
-            <a
-              href="/cv.pdf"
-              download
-              class="group inline-flex items-center gap-3 px-8 py-4
-                     border border-[#2E2B27] text-[#7A7570] font-semibold text-sm tracking-wide
-                     rounded-full
-                     hover:border-[#C96442]/40 hover:text-[#EDE8DF] hover:-translate-y-0.5
-                     active:scale-95 active:translate-y-0
-                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C96442]/50
-                     transform-gpu transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
-            >
-              <Download class="w-4 h-4 group-hover:-translate-y-0.5 group-hover:text-[#C96442] transition-all duration-300" />
-              Baixar Currículo
-            </a>
-          </div>
+      <!-- Tipografia + CTAs -->
+      <div class="lg:col-span-7 flex flex-col text-left">
+        <div class="hero-badge opacity-0 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mb-6 w-fit backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-[var(--color-terminal)] animate-pulse"></span>
+          ARQUITETURA DE SOFTWARE & SOLUÇÕES INDUSTRIAIS
         </div>
 
-        <!-- Coluna direita: foto de perfil com máscara orgânica -->
-        <div class="lg:col-span-5 flex justify-center lg:justify-end">
-          <div class="hero-photo gs-hidden relative">
-            <!-- Glow atrás da foto -->
-            <div class="absolute -inset-8 bg-[#C96442]/[0.08] blur-3xl rounded-[50%_50%_40%_60%/60%_40%_60%_40%]"></div>
+        <h1 class="hero-title text-6xl md:text-8xl font-black text-[var(--color-text-pure)] leading-none tracking-brutal uppercase select-none overflow-hidden">
+          <span class="gs-hidden block opacity-0 transform translate-y-full">HELLEN</span>
+          <span class="gs-hidden block opacity-0 transform translate-y-full text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-ultraviolet)] to-[var(--color-magenta)]">VERENA</span>
+        </h1>
 
-            <!-- Container da foto com máscara orgânica -->
-            <div class="relative w-64 h-72 md:w-80 md:h-[22rem] overflow-hidden
-                        rounded-[60%_40%_55%_45%/50%_60%_40%_50%]
-                        border-2 border-[#2E2B27]
-                        bg-[#1C1A17] flex items-center justify-center">
-              <!-- Placeholder: Iniciais estilizadas (substituir por <img> quando tiver a foto) -->
-              <div class="flex flex-col items-center gap-3">
-                <span class="font-[family-name:var(--font-editorial)] text-6xl font-bold text-[#C96442]/30">H</span>
-                <span class="font-[family-name:var(--font-mono)] text-[10px] tracking-[0.3em] uppercase text-[#7A7570]/50">
-                  foto de perfil
-                </span>
+        <p class="hero-sub opacity-0 mt-8 text-lg md:text-xl text-[var(--color-text-muted)] max-w-xl font-normal leading-relaxed">
+          Especialista em otimização extrema de <span class="text-[var(--color-text-pure)] font-mono">PostgreSQL</span> e arquitetura com <span class="text-[var(--color-text-pure)] font-mono">Prisma ORM</span>. Desenvolvendo sistemas inteligentes de alta performance para o chão de fábrica industrial.
+        </p>
+
+        <div class="hero-buttons opacity-0 mt-10 flex flex-wrap gap-4">
+          <a href="#projetos" class="group relative px-8 py-4 bg-[var(--color-ultraviolet)] hover:bg-[var(--color-magenta)] text-white font-medium rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] transform-gpu hover:scale-105 shadow-[0_0_25px_rgba(112,0,255,0.4)] hover:shadow-[0_0_30px_rgba(255,0,127,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50">
+            Ver Projetos Ativos
+          </a>
+          <a href="#contato" class="px-8 py-4 rounded-full border border-[var(--color-border)] hover:border-[var(--color-magenta)] bg-[var(--color-bg-surface)]/40 text-[var(--color-text-pure)] font-medium transition-all duration-300 backdrop-blur-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ultraviolet)]/50">
+            Iniciar Conexão
+          </a>
+        </div>
+      </div>
+
+      <!-- Crachá Flutuante (ÚNICO elemento visual nesta seção) -->
+      <div class="lg:col-span-5 flex justify-center lg:justify-end relative min-h-[480px] w-full">
+        <div ref="avatarContainer" class="hero-photo relative w-80 h-[450px] flex items-center justify-center">
+          <div
+            ref="floatingCard"
+            class="floating-card absolute w-72 h-96 bg-[var(--color-bg-surface)]/80 border border-[var(--color-ultraviolet)]/40 rounded-2xl p-4 shadow-[0_0_50px_rgba(112,0,255,0.15)] backdrop-blur-xl flex flex-col justify-between transition-transform duration-300 pointer-events-auto transform-gpu will-change-transform"
+          >
+            <!-- Câmera / Notch -->
+            <div class="w-full flex justify-between items-center border-b border-[var(--color-border)] pb-3">
+              <div class="w-12 h-3 bg-zinc-800 rounded-full mx-auto relative shadow-inner">
+                <div class="absolute inset-x-3 top-0 h-1 bg-zinc-700 rounded-full"></div>
+              </div>
+            </div>
+
+            <!-- Foto com Blob Morph -->
+            <div class="relative w-full aspect-square my-auto overflow-hidden bg-gradient-to-tr from-[var(--color-ultraviolet)] to-[var(--color-magenta)] p-[2px] animate-blob-morph">
+              <div class="w-full h-full bg-[var(--color-bg-main)] animate-blob-morph overflow-hidden">
+                <img src="../assets/hero.png" alt="Hellen Verena" class="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700 scale-105" />
+              </div>
+            </div>
+
+            <!-- Código de barras / ID -->
+            <div class="border-t border-[var(--color-border)] pt-3 flex flex-col items-center gap-1 font-mono">
+              <span class="text-[10px] text-[var(--color-text-muted)] tracking-widest">SST_H_MAGALHAES_2026</span>
+              <div class="w-full h-6 bg-[var(--color-text-pure)] opacity-10 rounded-sm mt-1 flex gap-[2px] p-1 overflow-hidden">
+                <div class="h-full bg-white w-1"></div><div class="h-full bg-white w-[2px]"></div><div class="h-full bg-white w-1"></div><div class="h-full bg-white w-[3px]"></div><div class="h-full bg-white w-[1px]"></div><div class="h-full bg-white w-2"></div><div class="h-full bg-white w-[2px]"></div><div class="h-full bg-white w-1"></div><div class="h-full bg-white w-[3px]"></div><div class="h-full bg-white w-1"></div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
 
-    <!-- Indicador de scroll -->
-    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10">
-      <span class="font-[family-name:var(--font-mono)] text-[9px] tracking-[0.3em] uppercase text-[#7A7570]/60">scroll</span>
-      <div class="w-px h-12 bg-gradient-to-b from-[#C96442]/40 to-transparent"></div>
+    <!-- Barra inferior -->
+    <div class="hero-footer opacity-0 w-full flex justify-between items-center font-mono text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-6 mt-12 z-10">
+      <div class="flex items-center gap-4">
+        <span>[ SCALE ] ATIVO</span>
+        <span>[ SOBRACORTE ] CORE</span>
+      </div>
+      <div class="animate-bounce text-[var(--color-magenta)]">
+        ↓ ROLAR PARA EXPLORAR
+      </div>
     </div>
   </section>
 </template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { gsap } from 'gsap'
+
+// Referências do Template
+const particleCanvas = ref(null)
+const floatingCard = ref(null)
+const avatarContainer = ref(null)
+
+let animationFrameId = null
+
+// ─── Efeito Magnético no Crachá (Segue levemente o mouse) ──────────────────
+const aplicarEfeitoMagnetico = (e) => {
+  if (window.scrollY > 200) return
+  const card = floatingCard.value
+  if (!card) return
+  const bounds = card.getBoundingClientRect()
+  const mouseX = e.clientX - bounds.left - bounds.width / 2
+  const mouseY = e.clientY - bounds.top - bounds.height / 2
+
+  gsap.to(card, {
+    x: mouseX * 0.15,
+    y: mouseY * 0.15,
+    rotationY: mouseX * 0.05,
+    rotationX: -mouseY * 0.05,
+    duration: 0.5,
+    ease: "power2.out"
+  })
+}
+
+const resetarEfeitoMagnetico = () => {
+  if (!floatingCard.value) return
+  gsap.to(floatingCard.value, {
+    x: 0, y: 0,
+    rotationX: 0, rotationY: 0,
+    duration: 0.8,
+    ease: "power3.out"
+  })
+}
+
+onMounted(() => {
+  window.addEventListener('mousemove', aplicarEfeitoMagnetico)
+  window.addEventListener('mouseleave', resetarEfeitoMagnetico)
+
+  // ─── Canvas de Partículas (Ultravioleta & Magenta) ──────────────────────
+  const canvas = particleCanvas.value
+  if (!canvas) return
+  const ctx = canvas.getContext('2d')
+
+  const redimensionar = () => {
+    canvas.width = canvas.parentElement.offsetWidth
+    canvas.height = canvas.parentElement.offsetHeight
+  }
+  redimensionar()
+  window.addEventListener('resize', redimensionar)
+
+  const particulas = []
+  const quantidade = 40
+
+  for (let i = 0; i < quantidade; i++) {
+    particulas.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 1.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      color: Math.random() > 0.5 ? 'rgba(112, 0, 255, ' : 'rgba(255, 0, 127, '
+    })
+  }
+
+  const loopAnimacao = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    particulas.forEach(p => {
+      p.x += p.vx
+      p.y += p.vy
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1
+
+      ctx.beginPath()
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
+      ctx.fillStyle = p.color + '0.4)'
+      ctx.fill()
+    })
+
+    ctx.lineWidth = 0.5
+    for (let i = 0; i < particulas.length; i++) {
+      for (let j = i + 1; j < particulas.length; j++) {
+        const dist = Math.hypot(particulas[i].x - particulas[j].x, particulas[i].y - particulas[j].y)
+        if (dist < 140) {
+          ctx.beginPath()
+          ctx.moveTo(particulas[i].x, particulas[i].y)
+          ctx.lineTo(particulas[j].x, particulas[j].y)
+          ctx.strokeStyle = `rgba(112, 0, 255, ${(1 - dist / 140) * 0.12})`
+          ctx.stroke()
+        }
+      }
+    }
+
+    animationFrameId = requestAnimationFrame(loopAnimacao)
+  }
+  loopAnimacao()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('mousemove', aplicarEfeitoMagnetico)
+  window.removeEventListener('mouseleave', resetarEfeitoMagnetico)
+  cancelAnimationFrame(animationFrameId)
+})
+</script>

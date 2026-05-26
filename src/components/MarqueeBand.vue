@@ -14,22 +14,22 @@ const ferramentas = [
 </script>
 
 <template>
-  <div class="relative py-6 overflow-hidden border-y border-[#2E2B27]/50 bg-[#0F0E0C]">
-    <!-- Track dupla para loop sem gap -->
+  <div class="relative py-6 overflow-hidden border-y border-[var(--color-ultraviolet)]/20 bg-[var(--color-bg-main)]">
+    <!-- Track dupla para loop contínuo -->
     <div class="marquee-track flex items-center gap-0 whitespace-nowrap w-max">
       <!-- Primeira cópia -->
       <template v-for="(tool, i) in ferramentas" :key="'a-' + i">
-        <span class="font-[family-name:var(--font-mono)] text-sm font-medium tracking-wide text-[#7A7570] px-8">
+        <span class="font-mono text-sm font-medium tracking-wide text-[var(--color-text-muted)] px-8 hover:text-[var(--color-text-pure)] transition-colors duration-300">
           {{ tool }}
         </span>
-        <span class="text-[#C96442]/40 text-xs select-none">§</span>
+        <span class="text-[var(--color-ultraviolet)]/40 text-xs select-none">§</span>
       </template>
       <!-- Segunda cópia (loop contínuo) -->
       <template v-for="(tool, i) in ferramentas" :key="'b-' + i">
-        <span class="font-[family-name:var(--font-mono)] text-sm font-medium tracking-wide text-[#7A7570] px-8">
+        <span class="font-mono text-sm font-medium tracking-wide text-[var(--color-text-muted)] px-8 hover:text-[var(--color-text-pure)] transition-colors duration-300">
           {{ tool }}
         </span>
-        <span class="text-[#C96442]/40 text-xs select-none">§</span>
+        <span class="text-[var(--color-ultraviolet)]/40 text-xs select-none">§</span>
       </template>
     </div>
   </div>
