@@ -1,5 +1,6 @@
 <script setup>
 // Competências movidas para o MarqueeBand
+// Auditado: Nenhuma margem ou padding excessivo forçando o vão de rolagem.
 </script>
 
 <template>
@@ -54,8 +55,9 @@
               </div>
             </div>
             <div class="mt-3 md:mt-4 font-mono text-xs text-left space-y-1">
-              <p class="text-[var(--color-text-pure)] font-bold">REGISTRO: Magalhães, H. V.</p>
-              <p class="text-[var(--color-text-muted)]">NÚCLEO: Core/Bahia/BR</p>
+              <p class="text-[var(--color-text-pure)] font-bold">REGISTRO: Hellen Verena</p>
+              <p class="text-[var(--color-text-muted)]">NÚCLEO: Feira de Santana/Bahia/BR</p>
+               <p class="text-[var(--color-text-muted)]">Atende via HomeOffice para o mundo todo!</p>
             </div>
             <div class="absolute -inset-px rounded-xl bg-gradient-to-b from-[var(--color-ultraviolet)]/10 to-transparent pointer-events-none -z-10"></div>
           </div>
