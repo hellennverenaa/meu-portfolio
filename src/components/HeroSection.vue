@@ -68,7 +68,7 @@
               </div>
 
               <div class="border-t border-[var(--color-border)] pt-2 md:pt-3 flex flex-col items-center gap-1 font-mono">
-                <span class="text-[9px] md:text-[10px] text-[var(--color-text-muted)] tracking-widest">SST_H_MAGALHAES_2026</span>
+                <span class="text-[9px] md:text-[10px] text-[var(--color-text-muted)] tracking-widest">HELLEN VERENA DA C. MAGALHÃES</span>
                 <div class="w-full h-5 md:h-6 bg-[var(--color-text-pure)] opacity-10 rounded-sm mt-1 flex gap-[2px] p-1 overflow-hidden">
                   <div class="h-full bg-current w-1"></div><div class="h-full bg-current w-[2px]"></div><div class="h-full bg-current w-1"></div><div class="h-full bg-current w-[3px]"></div><div class="h-full bg-current w-[1px]"></div><div class="h-full bg-current w-2"></div><div class="h-full bg-current w-[2px]"></div><div class="h-full bg-current w-1"></div><div class="h-full bg-current w-[3px]"></div><div class="h-full bg-current w-1"></div>
                 </div>
