@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <section id="sobre" class="sobre-mim-section relative py-20 md:py-32 lg:py-40 px-4 md:px-12 lg:px-16">
+  <section id="sobre" class="sobre-mim-section relative py-20 md:py-32 lg:py-40 px-4 md:px-12 lg:px-16 scroll-mt-20">
     <div class="max-w-7xl mx-auto">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 lg:gap-28 items-start">
 

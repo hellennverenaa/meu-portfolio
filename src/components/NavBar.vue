@@ -6,13 +6,9 @@ import { Sun, Moon, Menu, X } from '@lucide/vue'
 const modoEscuro = ref(document.documentElement.classList.contains('dark'))
 
 function alternarTema() {
-  // Ativa transição suave de tema
   document.documentElement.classList.add('theme-transitioning')
-
   modoEscuro.value = !modoEscuro.value
   document.documentElement.classList.toggle('dark', modoEscuro.value)
-
-  // Remove a classe de transição após a animação
   setTimeout(() => {
     document.documentElement.classList.remove('theme-transitioning')
   }, 500)
@@ -25,9 +21,25 @@ function toggleMenu() {
   menuAberto.value = !menuAberto.value
 }
 
+// ─── Navegação com offset para compensar navbar fixa + GSAP pin-spacer ─────
 function irPara(id) {
   menuAberto.value = false
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+
+  // Caso especial: 'inicio' precisa ir para o topo absoluto da página,
+  // porque o GSAP pin-spacer desloca o elemento #inicio do DOM original.
+  if (id === 'inicio') {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    return
+  }
+
+  const el = document.getElementById(id)
+  if (!el) return
+
+  // Calcula posição manual com offset da navbar (80px)
+  // Isso evita que scrollIntoView fique escondido atrás da navbar fixa
+  const navbarHeight = 80
+  const elementTop = el.getBoundingClientRect().top + window.scrollY - navbarHeight
+  window.scrollTo({ top: elementTop, behavior: 'smooth' })
 }
 
 // ─── Props & Computeds ──────────────────────────────────────────────────────
@@ -35,7 +47,7 @@ const props = defineProps({
   scrollY: { type: Number, default: 0 }
 })
 
-const headerOpaco = computed(() => props.scrollY > 80)
+
 
 const progressoLeitura = computed(() => {
   if (typeof window === 'undefined') return 0
@@ -44,35 +56,30 @@ const progressoLeitura = computed(() => {
   return Math.min((props.scrollY / total) * 100, 100)
 })
 
+// Ordem: INÍCIO, SOBRE, CARREIRA, PROJETOS, STACKS, CONTATO
 const navItems = [
-  { label: 'Sobre', id: 'sobre' },
-  { label: 'Serviços', id: 'servicos' },
-  { label: 'Projetos', id: 'projetos' },
-  { label: 'Carreira', id: 'carreira' },
-  { label: 'Contato', id: 'contato' },
+  { label: 'INÍCIO', id: 'inicio' },
+  { label: 'SOBRE', id: 'sobre' },
+  { label: 'CARREIRA', id: 'carreira' },
+  { label: 'PROJETOS', id: 'projetos' },
+  { label: 'STACKS', id: 'stacks' },
+  { label: 'CONTATO', id: 'contato' },
 ]
 </script>
 
 <template>
-  <header
-    :class="[
-      'fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-out',
-      'flex items-center justify-between px-4 md:px-12 lg:px-16',
-      headerOpaco
-        ? 'py-3 md:py-4 bg-[var(--color-bg-main)]/90 backdrop-blur-2xl border-b border-[var(--color-border)]/50 shadow-[0_4px_20px_rgba(0,0,0,0.1)]'
-        : 'py-5 md:py-8 bg-transparent border-b border-transparent'
-    ]"
-  >
+  <!-- Navbar — z-[100] garante que fique acima do GSAP pin-spacer (z-auto) -->
+  <header class="fixed top-0 inset-x-0 z-[100] flex items-center justify-between px-4 md:px-12 lg:px-16 py-3 md:py-4 bg-white/80 dark:bg-[#06020D]/80 backdrop-blur-md border-b border-[var(--color-border)]/50">
     <!-- Logo -->
     <a
       href="#"
       @click.prevent="irPara('inicio')"
       class="group flex items-baseline gap-0.5 cursor-pointer z-10"
     >
-      <span class="text-lg md:text-xl font-bold tracking-tighter text-[var(--color-text-pure)] group-hover:text-[var(--color-magenta)] transition-colors duration-300">
+      <span class="text-lg md:text-xl font-bold tracking-tighter text-neutral-900 dark:text-neutral-300 group-hover:text-[var(--color-magenta)] transition-colors duration-300">
         hellen
       </span>
-      <span class="font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] group-hover:text-[var(--color-magenta)]/60 transition-colors duration-300">
+      <span class="font-mono text-[10px] md:text-xs text-neutral-900 dark:text-neutral-300 group-hover:text-[var(--color-magenta)]/60 transition-colors duration-300">
         .dev
       </span>
     </a>
@@ -85,7 +92,7 @@ const navItems = [
         :href="'#' + item.id"
         @click.prevent="irPara(item.id)"
         class="relative font-mono text-xs font-medium tracking-widest uppercase
-               text-[var(--color-text-muted)] hover:text-[var(--color-text-pure)]
+               text-neutral-900 dark:text-neutral-300 hover:text-[var(--color-magenta)] dark:hover:text-white
                transition-colors duration-300
                after:absolute after:-bottom-1 after:left-0 after:w-0 after:h-px after:bg-[var(--color-magenta)]
                hover:after:w-full after:transition-all after:duration-500 after:ease-[cubic-bezier(0.25,1,0.5,1)]"
@@ -102,7 +109,7 @@ const navItems = [
         aria-label="Alternar tema claro/escuro"
         class="p-2 md:p-2.5 rounded-full
                border border-[var(--color-border)] bg-[var(--color-bg-surface)]/50
-               text-[var(--color-text-muted)] hover:text-[var(--color-magenta)] hover:border-[var(--color-magenta)]/40
+               text-neutral-900 dark:text-neutral-300 hover:text-[var(--color-magenta)] hover:border-[var(--color-magenta)]/40
                active:scale-90
                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50
                transform-gpu transition-all duration-300 ease-out cursor-pointer backdrop-blur-sm"
@@ -117,7 +124,7 @@ const navItems = [
         aria-label="Menu de navegação"
         class="md:hidden p-2 rounded-full
                border border-[var(--color-border)] bg-[var(--color-bg-surface)]/50
-               text-[var(--color-text-muted)] hover:text-[var(--color-magenta)]
+               text-neutral-900 dark:text-neutral-300 hover:text-[var(--color-magenta)]
                active:scale-90
                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50
                transform-gpu transition-all duration-300 cursor-pointer backdrop-blur-sm"
@@ -141,7 +148,7 @@ const navItems = [
   <Transition name="mobile-menu">
     <div
       v-if="menuAberto"
-      class="fixed inset-0 z-40 bg-[var(--color-bg-main)]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+      class="fixed inset-0 z-[90] bg-[var(--color-bg-main)]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
     >
       <a
         v-for="item in navItems"
@@ -149,7 +156,7 @@ const navItems = [
         :href="'#' + item.id"
         @click.prevent="irPara(item.id)"
         class="font-mono text-lg font-medium tracking-widest uppercase
-               text-[var(--color-text-muted)] hover:text-[var(--color-magenta)]
+               text-neutral-900 dark:text-neutral-300 hover:text-[var(--color-magenta)] dark:hover:text-white
                transition-colors duration-300"
       >
         {{ item.label }}

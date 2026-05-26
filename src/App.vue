@@ -2,6 +2,10 @@
 import { ref, onMounted, onUnmounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+
+// ─── Registrar plugins GSAP ──────────────────────────────────────────────────
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin)
 
 import NavBar from './components/NavBar.vue'
 import HeroSection from './components/HeroSection.vue'
@@ -10,6 +14,7 @@ import ServicosSection from './components/ServicosSection.vue'
 import MarqueeBand from './components/MarqueeBand.vue'
 import ProjetosSection from './components/ProjetosSection.vue'
 import TimelineSection from './components/TimelineSection.vue'
+import StacksSection from './components/StacksSection.vue'
 import ContatoSection from './components/ContatoSection.vue'
 
 // ─── Registrar plugin GSAP ──────────────────────────────────────────────────
@@ -23,46 +28,64 @@ function aoRolar() {
   scrollY.value = window.scrollY
 }
 
+// ─── Relógio & Scroll Suave (GSAP) ──────────────────────────────────────────
+const horaAtual = ref('')
+const atualizarHora = () => {
+  const agora = new Date()
+  horaAtual.value = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+}
+let intervaloHora = null
+
+const rolarPagina = () => {
+  gsap.to(window, { scrollTo: { y: '#sobre', offsetY: 0 }, duration: 1 })
+}
+
 // ─── Motor de Animação GSAP — Scrollytelling ────────────────────────────────
 function inicializarAnimacoes() {
 
-  // 1. HERO: Entrada inicial
+  // 1. HERO: Entrada inicial — elementos individuais aparecem em sequência
   gsap.set('.hero-badge', { opacity: 0, y: 20 })
+  gsap.set('.hero-avail-badge', { opacity: 0, y: -10 })
   gsap.set('.hero-title .gs-hidden', { opacity: 0, y: 60 })
   gsap.set('.hero-sub', { opacity: 0, y: 30 })
   gsap.set('.hero-buttons', { opacity: 0, y: 30 })
+  gsap.set('.hero-stacks', { opacity: 0, y: 20 })
   gsap.set('.hero-footer', { opacity: 0, y: 20 })
 
   const tlHero = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
   tlHero
     .to('.hero-badge', { opacity: 1, y: 0, duration: 0.8 })
+    .to('.hero-avail-badge', { opacity: 1, y: 0, duration: 0.6 }, '-=0.4')
     .to('.hero-title .gs-hidden', { opacity: 1, y: 0, duration: 1, stagger: 0.12 }, '-=0.4')
     .to('.hero-sub', { opacity: 1, y: 0, duration: 0.8 }, '-=0.5')
     .to('.hero-buttons', { opacity: 1, y: 0, duration: 0.8 }, '-=0.4')
+    .to('.hero-stacks', { opacity: 1, y: 0, duration: 0.7 }, '-=0.3')
     .to('.hero-footer', { opacity: 1, y: 0, duration: 0.6 }, '-=0.3')
-// ═══════════════════════════════════════════════════════════════════════════
-  // 2. A GRANDE TRANSIÇÃO COM REF (Travamento Absoluto e Correção de Opacidade)
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // 2. A GRANDE TRANSIÇÃO — Pin + Fade-out da seção inteira
+  //
+  //    Animamos APENAS o wrapper .hero-fade-wrapper (container pai),
+  //    que começa com opacity:1 (nunca é tocado pelo tlHero). Assim o scrub
+  //    reverso restaura para opacity:1 corretamente, e todos os filhos
+  //    reaparecem junto.
   // ═══════════════════════════════════════════════════════════════════════════
   if (heroPinWrapper.value) {
     const tlPin = gsap.timeline({
       scrollTrigger: {
-        trigger: heroPinWrapper.value, 
+        trigger: heroPinWrapper.value,
         start: 'top top',
-        end: '+=800',
+        end: () => '+=' + heroPinWrapper.value.offsetHeight,
         pin: true,
         pinSpacing: true,
         scrub: 1,
       }
     })
 
-    // A MÁGICA DA CORREÇÃO AQUI:
-    // Em vez de apagar o .floating-card e o .hero-title separadamente (o que gera conflito com a entrada),
-    // nós apagamos a "caixa mãe" (.grid) que segura todos eles. 
-    // Assim o GSAP não se confunde na hora de voltar o scroll para cima.
-    tlPin.to('.hero-section .grid', { opacity: 0, y: -40, duration: 1 }, 0)
-    tlPin.to('.hero-section svg', { opacity: 0, duration: 0.8 }, 0)
-    tlPin.to('.hero-footer', { opacity: 0, duration: 0.5 }, 0)
+    // Anima o wrapper que envolve TODO o conteúdo da hero-section.
+    tlPin.to('.hero-fade-wrapper', { opacity: 0, y: -40, duration: 1 }, 0)
+    tlPin.to('.hero-footer-wrapper', { opacity: 0, y: -40, duration: 1 }, 0)
   }
 
   // 3. SOBRE MIM
@@ -115,7 +138,18 @@ function inicializarAnimacoes() {
     gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 85%', end: 'top 50%', scrub: 1 }, opacity: 1, x: 0, ease: 'power3.out' })
   })
 
-  // 7. CONTATO
+  // 7. STACKS & FERRAMENTAS
+  gsap.utils.toArray('.stacks-label, .stacks-title, .stacks-desc').forEach(el => {
+    gsap.set(el, { opacity: 0, y: 40 })
+    gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }, opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' })
+  })
+
+  gsap.utils.toArray('.stacks-card').forEach((el, i) => {
+    gsap.set(el, { opacity: 0, y: 50 })
+    gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }, opacity: 1, y: 0, duration: 0.9, ease: 'power3.out', delay: i * 0.1 })
+  })
+
+  // 8. CONTATO
   gsap.utils.toArray('.contato-label, .contato-title, .contato-text, .contato-cta').forEach((el, i) => {
     gsap.set(el, { opacity: 0, y: 30 })
     gsap.to(el, { scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }, opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: i * 0.1 })
@@ -124,6 +158,9 @@ function inicializarAnimacoes() {
 
 // ─── Lifecycle ──────────────────────────────────────────────────────────────
 onMounted(() => {
+  atualizarHora()
+  intervaloHora = setInterval(atualizarHora, 60000)
+
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
   }
@@ -144,6 +181,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  clearInterval(intervaloHora)
   window.removeEventListener('scroll', aoRolar)
   ScrollTrigger.getAll().forEach(st => st.kill())
   gsap.killTweensOf('*')
@@ -152,11 +190,32 @@ onUnmounted(() => {
 
 <template>
   <div class="bg-[var(--color-bg-main)] text-[var(--color-text-pure)] font-sans min-h-screen">
-    <NavBar />
-    <main class="w-full">
+    <!-- Navbar FORA do main/pin para z-index isolado -->
+    <NavBar :scrollY="scrollY" />
+    <main class="w-full relative z-10">
       
       <div ref="heroPinWrapper" class="w-full relative">
         <HeroSection />
+      </div>
+
+      <!-- Rodapé da Hero — Wrapper imune ao pin-spacer para evitar conflitos de scrub do GSAP -->
+      <div class="hero-footer-wrapper fixed bottom-6 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4 md:px-12 lg:px-16 z-20 pointer-events-none">
+        <div class="hero-footer opacity-0 flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 gap-4">
+          
+          <div class="flex items-center gap-4 pointer-events-auto">
+            <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
+              <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
+              SOBRACORTE // ONLINE
+            </div>
+          </div>
+
+          <div class="flex items-center gap-6 pointer-events-auto">
+            <span class="text-neutral-900 dark:text-white">{{ horaAtual }}</span>
+            <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
+              ↓ ROLAR PARA EXPLORAR
+            </button>
+          </div>
+        </div>
       </div>
       
       <SobreMimSection />
@@ -164,6 +223,7 @@ onUnmounted(() => {
       <ServicosSection />
       <MarqueeBand />
       <ProjetosSection />
+      <StacksSection />
       <ContatoSection />
       
     </main>
