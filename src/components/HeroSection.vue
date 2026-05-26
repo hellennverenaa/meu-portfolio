@@ -20,7 +20,7 @@
         <path ref="lanyardPath" fill="none" stroke="url(#lanyardGradient)" stroke-width="14" stroke-linecap="round" />
       </svg>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center z-10 w-full pt-12 pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center z-10 w-full pt-20 pb-20">
 
         <div class="lg:col-span-7 flex flex-col text-left order-2 lg:order-1">
 
@@ -36,14 +36,14 @@
 
           <!-- Badge de Disponibilidade — alta visibilidade, logo abaixo do label -->
           <div class="hero-avail-badge opacity-0 inline-flex items-center gap-2.5 px-5 py-2 rounded-full w-fit mb-6
-                      border border-[var(--color-magenta)]/50 bg-[var(--color-magenta)]/8
-                      shadow-[0_0_20px_rgba(255,0,127,0.15),inset_0_0_12px_rgba(112,0,255,0.08)]
+                      border border-[#7000FF] bg-[#7000FF]/10
+                      shadow-[0_0_20px_rgba(112,0,255,0.15),inset_0_0_12px_rgba(112,0,255,0.08)]
                       backdrop-blur-md z-20">
             <span class="relative flex h-2.5 w-2.5">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#39FF14] opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#39FF14] shadow-[0_0_8px_#39FF14]"></span>
             </span>
-            <span class="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-[var(--color-text-pure)] font-bold">
+            <span class="font-mono text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-[#7000FF] dark:text-[#B282FF] font-bold">
               DISPONÍVEL — ACEITANDO PROJETOS EM 2026
             </span>
           </div>
@@ -104,35 +104,19 @@
 
       </div>
 
-      <!-- ─── Stacks & Ferramentas ─────────────────────────────────────────── -->
-      <div class="hero-stacks opacity-0 w-full z-10 mt-2 mb-4">
-        <p class="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-muted)] mb-3">
-          Stack & Ferramentas
-        </p>
-        <div class="flex flex-wrap gap-2">
-          <span v-for="tech in stacks" :key="tech"
-            class="px-3 py-1 font-mono text-[10px] uppercase tracking-widest rounded-full
-                   border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/40
-                   text-[var(--color-text-muted)] hover:text-[var(--color-ultraviolet)]
-                   hover:border-[var(--color-ultraviolet)]/60 hover:bg-[var(--color-ultraviolet)]/10
-                   transition-all duration-300 cursor-default backdrop-blur-sm">
-            {{ tech }}
-          </span>
-        </div>
-      </div>
 
       <!-- ─── Rodapé da Hero ───────────────────────────────────────────────── -->
       <div class="hero-footer opacity-0 w-full flex flex-col sm:flex-row justify-between items-center font-mono text-[10px] md:text-xs text-[var(--color-text-muted)] border-t border-[var(--color-border)] pt-4 md:pt-6 z-10 gap-4">
         
         <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2 text-white">
+          <div class="flex items-center gap-2 text-neutral-900 dark:text-white">
             <span class="w-2 h-2 bg-[#39FF14] rounded-full animate-pulse shadow-[0_0_10px_#39FF14]"></span>
             SOBRACORTE // ONLINE
           </div>
         </div>
 
         <div class="flex items-center gap-6">
-          <span class="text-[var(--color-text-pure)]">{{ horaAtual }}</span>
+          <span class="text-neutral-900 dark:text-white">{{ horaAtual }}</span>
           <button @click="rolarPagina" class="animate-bounce text-[var(--color-magenta)] hover:text-[var(--color-text-pure)] transition-colors cursor-pointer">
             ↓ ROLAR PARA EXPLORAR
           </button>
@@ -149,12 +133,6 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/Draggable'
 
 gsap.registerPlugin(Draggable)
-
-// ─── Stack list ──────────────────────────────────────────────────────────────
-const stacks = [
-  'PostgreSQL', 'Prisma ORM', 'Node.js', 'Vue 3',
-  'TypeScript', 'Git', 'Figma'
-]
 
 // ─── Referências ────────────────────────────────────────────────────────────
 const particleCanvas = ref(null)

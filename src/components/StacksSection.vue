@@ -70,7 +70,7 @@ function corNivel(nivel) {
 
 <template>
   <!-- ═══════════ STACKS & FERRAMENTAS ═══════════ -->
-  <section id="stacks" class="relative py-20 md:py-32 lg:py-40 px-4 md:px-12 lg:px-16 scroll-mt-20">
+  <section id="stacks" class="relative pt-10 pb-20 md:pt-16 md:pb-32 lg:pt-20 lg:pb-40 px-4 md:px-12 lg:px-16 scroll-mt-20">
 
     <div class="max-w-7xl mx-auto">
 

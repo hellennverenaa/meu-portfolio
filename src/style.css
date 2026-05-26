@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   /* Cores de Impacto — Invariáveis entre temas */
   --color-ultraviolet: #7000FF;
