@@ -46,9 +46,9 @@ const progressoLeitura = computed(() => {
 
 const navItems = [
   { label: 'Sobre', id: 'sobre' },
+  { label: 'Carreira', id: 'carreira' },
   { label: 'Serviços', id: 'servicos' },
   { label: 'Projetos', id: 'projetos' },
-  { label: 'Carreira', id: 'carreira' },
   { label: 'Contato', id: 'contato' },
 ]
 </script>
