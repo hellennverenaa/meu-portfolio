@@ -1,26 +1,53 @@
 <script setup>
 import { ref } from 'vue'
 
+const FORM_ENDPOINT = import.meta.env.VITE_FORMSPREE_URL
+
 // ─── Dados Reativos do Formulário ────────────────────────────────────────────
-const nome      = ref('')
-const assunto   = ref('')
-const mensagem  = ref('')
+const nome = ref('')
+const assunto = ref('')
+const mensagem = ref('')
 
-// ─── Envio via Gmail Web (sem Outlook, sem '+' nos espaços) ──────────────────
-function enviarEmail() {
-  const destinatario   = 'hellenverena20@gmail.com'
-  const assuntoCodificado  = encodeURIComponent(assunto.value)
-  const corpoCodificado = encodeURIComponent(
-    `Nome: ${nome.value}\n\n${mensagem.value}`
-  )
+const isSubmitting = ref(false)
+const submetidoComSucesso = ref(false)
 
-  const gmailUrl =
-    `https://mail.google.com/mail/?view=cm&fs=1` +
-    `&to=${destinatario}` +
-    `&su=${assuntoCodificado}` +
-    `&body=${corpoCodificado}`
+// ─── Envio Assíncrono via API (Formspree) ──────────────────────────────────
+async function enviarFormulario() {
+  if (!FORM_ENDPOINT) {
+    console.error('URL da API do Formspree não configurada no arquivo .env')
+    return
+  }
 
-  window.open(gmailUrl, '_blank', 'noopener,noreferrer')
+  if (isSubmitting.value) return
+  isSubmitting.value = true
+
+  try {
+    const response = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        nome: nome.value,
+        assunto: assunto.value,
+        mensagem: mensagem.value,
+      }),
+    })
+
+    if (response.ok) {
+      submetidoComSucesso.value = true
+      nome.value = ''
+      assunto.value = ''
+      mensagem.value = ''
+    } else {
+      console.error('Falha no envio do formulário:', response.statusText)
+    }
+  } catch (error) {
+    console.error('Erro ao conectar com a API:', error)
+  } finally {
+    isSubmitting.value = false
+  }
 }
 
 // ─── Links de Redes Sociais — cards descritivos ───────────────────────────────
@@ -129,88 +156,147 @@ const socialLinks = [
           </a>
         </div>
 
-        <!-- ── Coluna Direita: Formulário ────────────────────────────────── -->
-        <form
-          @submit.prevent="enviarEmail"
-          class="flex flex-col gap-4 text-left"
-          novalidate
-        >
-          <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-1">
-            Enviar mensagem
-          </p>
+        <!-- ── Coluna Direita: Formulário ou Sucesso ───────────────────────── -->
+        <div class="w-full">
+          <form
+            v-if="!submetidoComSucesso"
+            @submit.prevent="enviarFormulario"
+            class="flex flex-col gap-4 text-left"
+            novalidate
+          >
+            <p class="font-mono text-[10px] uppercase tracking-[0.2em] text-[var(--color-text-muted)] mb-1">
+              Enviar mensagem
+            </p>
 
-          <!-- Nome -->
-          <div class="flex flex-col gap-1.5">
-            <label for="contato-nome" class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Nome</label>
-            <input
-              id="contato-nome"
-              v-model="nome"
-              type="text"
-              placeholder="Seu nome"
-              required
-              class="w-full px-4 py-3 rounded-xl bg-[var(--color-bg-surface)]/60 border border-[var(--color-border)]
-                     text-[var(--color-text-pure)] font-mono text-sm placeholder:text-[var(--color-text-muted)]/50
-                     focus:outline-none focus:border-[var(--color-ultraviolet)]/60 focus:shadow-[0_0_12px_rgba(112,0,255,0.15)]
-                     transition-all duration-300 backdrop-blur-sm"
-            />
-          </div>
+            <!-- Nome -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contato-nome" class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Nome</label>
+              <input
+                id="contato-nome"
+                v-model="nome"
+                type="text"
+                placeholder="Seu nome"
+                required
+                class="w-full px-4 py-3 rounded-xl bg-[var(--color-bg-surface)]/60 border border-[var(--color-border)]
+                       text-[var(--color-text-pure)] font-mono text-sm placeholder:text-[var(--color-text-muted)]/50
+                       focus:outline-none focus:border-[var(--color-ultraviolet)]/60 focus:shadow-[0_0_12px_rgba(112,0,255,0.15)]
+                       transition-all duration-300 backdrop-blur-sm"
+              />
+            </div>
 
-          <!-- Assunto -->
-          <div class="flex flex-col gap-1.5">
-            <label for="contato-assunto" class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Assunto</label>
-            <input
-              id="contato-assunto"
-              v-model="assunto"
-              type="text"
-              placeholder="Sobre o projeto..."
-              required
-              class="w-full px-4 py-3 rounded-xl bg-[var(--color-bg-surface)]/60 border border-[var(--color-border)]
-                     text-[var(--color-text-pure)] font-mono text-sm placeholder:text-[var(--color-text-muted)]/50
-                     focus:outline-none focus:border-[var(--color-ultraviolet)]/60 focus:shadow-[0_0_12px_rgba(112,0,255,0.15)]
-                     transition-all duration-300 backdrop-blur-sm"
-            />
-          </div>
+            <!-- Assunto -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contato-assunto" class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Assunto</label>
+              <input
+                id="contato-assunto"
+                v-model="assunto"
+                type="text"
+                placeholder="Sobre o projeto..."
+                required
+                class="w-full px-4 py-3 rounded-xl bg-[var(--color-bg-surface)]/60 border border-[var(--color-border)]
+                       text-[var(--color-text-pure)] font-mono text-sm placeholder:text-[var(--color-text-muted)]/50
+                       focus:outline-none focus:border-[var(--color-ultraviolet)]/60 focus:shadow-[0_0_12px_rgba(112,0,255,0.15)]
+                       transition-all duration-300 backdrop-blur-sm"
+              />
+            </div>
 
-          <!-- Mensagem -->
-          <div class="flex flex-col gap-1.5">
-            <label for="contato-mensagem" class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Mensagem</label>
-            <textarea
-              id="contato-mensagem"
-              v-model="mensagem"
-              rows="5"
-              placeholder="Descreva o desafio que quer resolver..."
-              required
-              class="w-full px-4 py-3 rounded-xl bg-[var(--color-bg-surface)]/60 border border-[var(--color-border)]
-                     text-[var(--color-text-pure)] font-mono text-sm placeholder:text-[var(--color-text-muted)]/50
-                     focus:outline-none focus:border-[var(--color-ultraviolet)]/60 focus:shadow-[0_0_12px_rgba(112,0,255,0.15)]
-                     transition-all duration-300 backdrop-blur-sm resize-none"
-            ></textarea>
-          </div>
+            <!-- Mensagem -->
+            <div class="flex flex-col gap-1.5">
+              <label for="contato-mensagem" class="font-mono text-xs uppercase tracking-widest text-[var(--color-text-muted)]">Mensagem</label>
+              <textarea
+                id="contato-mensagem"
+                v-model="mensagem"
+                rows="5"
+                placeholder="Descreva o desafio que quer resolver..."
+                required
+                class="w-full px-4 py-3 rounded-xl bg-[var(--color-bg-surface)]/60 border border-[var(--color-border)]
+                       text-[var(--color-text-pure)] font-mono text-sm placeholder:text-[var(--color-text-muted)]/50
+                       focus:outline-none focus:border-[var(--color-ultraviolet)]/60 focus:shadow-[0_0_12px_rgba(112,0,255,0.15)]
+                       transition-all duration-300 backdrop-blur-sm resize-none"
+              ></textarea>
+            </div>
 
-          <!-- Botão de envio -->
-          <button
-            type="submit"
-            class="group inline-flex items-center justify-center gap-3 px-8 py-4 mt-1
-                   bg-[var(--color-ultraviolet)] text-white font-bold text-sm tracking-wide
-                   rounded-full shadow-[0_4px_25px_rgba(112,0,255,0.35)]
-                   hover:bg-[var(--color-magenta)] hover:shadow-[0_8px_30px_rgba(255,0,127,0.45)] hover:-translate-y-1
-                   active:scale-95 active:translate-y-0
-                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50
+            <!-- Botão de envio -->
+            <button
+              type="submit"
+              :disabled="isSubmitting"
+              class="group inline-flex items-center justify-center gap-3 px-8 py-4 mt-1
+                     bg-[var(--color-ultraviolet)] text-white font-bold text-sm tracking-wide
+                     rounded-full shadow-[0_4px_25px_rgba(112,0,255,0.35)]
+                     hover:bg-[var(--color-magenta)] hover:shadow-[0_8px_30px_rgba(255,0,127,0.45)] hover:-translate-y-1
+                     active:scale-95 active:translate-y-0
+                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50
+                     disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-[0_4px_25px_rgba(112,0,255,0.35)]
+                     transform-gpu transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+            >
+              <!-- SVG de Enviar ou Spinner de Carregamento -->
+              <svg
+                v-if="!isSubmitting"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-4 h-4 group-hover:-rotate-12 transition-transform duration-300"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              <svg
+                v-else
+                class="animate-spin h-4 w-4 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              {{ isSubmitting ? 'Enviando...' : 'Enviar Mensagem' }}
+            </button>
+
+            <!-- Nota de rodapé discreta -->
+            <p class="font-mono text-[10px] text-[var(--color-text-muted)]/50 text-center">
+              Sua mensagem será enviada com segurança e de forma assíncrona.
+            </p>
+          </form>
+
+          <!-- Mensagem Elegante de Sucesso no Estilo Acheron -->
+          <div
+            v-else
+            class="flex flex-col items-center justify-center p-8 md:p-12 text-center
+                   bg-[var(--color-bg-surface)]/40 backdrop-blur-2xl
+                   border border-[var(--color-border)]
+                   rounded-2xl shadow-[0_8px_40px_rgba(255,0,127,0.15)]
+                   relative overflow-hidden min-h-[350px]
                    transform-gpu transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                 class="w-4 h-4 group-hover:-rotate-12 transition-transform duration-300">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-            Iniciar Conversa via Gmail
-          </button>
+            <!-- Borda superior neon magenta -->
+            <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[var(--color-magenta)] to-transparent"></div>
+            
+            <!-- Glow sutil de fundo (neon verde) -->
+            <div class="absolute inset-0 bg-gradient-to-b from-[var(--color-terminal)]/5 to-transparent pointer-events-none"></div>
 
-          <!-- Nota de rodapé discreta -->
-          <p class="font-mono text-[10px] text-[var(--color-text-muted)]/50 text-center">
-            Abre o Gmail em nova aba com tudo preenchido automaticamente.
-          </p>
-        </form>
+            <!-- Ícone de checkmark com glow neon verde -->
+            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-[var(--color-terminal)]/10 text-[var(--color-terminal)] border border-[var(--color-terminal)]/25 mb-6 shadow-[0_0_20px_rgba(57,255,20,0.2)]">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+
+            <p class="font-mono text-[10px] uppercase tracking-[0.25em] text-[var(--color-text-muted)] mb-3">
+              § Status: Enviado
+            </p>
+
+            <h3 class="text-xl md:text-2xl font-bold tracking-tight text-center max-w-sm leading-relaxed">
+              <span class="text-transparent bg-clip-text bg-gradient-to-r from-[var(--color-terminal)] to-[var(--color-magenta)] filter drop-shadow-[0_0_10px_rgba(57,255,20,0.35)]">
+                Mensagem enviada com sucesso! Entrarei em contato em breve.
+              </span>
+            </h3>
+          </div>
+        </div>
 
       </div><!-- fim grid -->
     </div>
