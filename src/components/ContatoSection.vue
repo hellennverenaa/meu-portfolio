@@ -14,38 +14,41 @@ const submetidoComSucesso = ref(false)
 // ─── Envio Assíncrono via API (Formspree) ──────────────────────────────────
 async function enviarFormulario() {
   if (!FORM_ENDPOINT) {
-    console.error('URL da API (VITE_FORMSPREE_URL) não configurada nas variáveis de ambiente.')
+    console.error('URL da API não configurada nas variáveis de ambiente.')
     return
   }
 
   if (isSubmitting.value) return
   isSubmitting.value = true
 
+  // Extrai apenas o token final caso você tenha colocado a URL inteira na Vercel,
+  // ou usa o valor puro se você colocou apenas a chave.
+  const token = FORM_ENDPOINT.includes('/') ? FORM_ENDPOINT.split('/').pop() : FORM_ENDPOINT
+
   try {
-    const response = await fetch(FORM_ENDPOINT, {
+    const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
       },
       body: JSON.stringify({
-        // Se estiver usando Web3Forms, passamos a variável de ambiente como access_key.
-        // Caso seja Formspree, ele apenas ignorará essa linha, mantendo o código agnóstico.
-        access_key: FORM_ENDPOINT.split('/').pop(), 
+        access_key: token,
         name: nome.value,
         subject: assunto.value,
         message: mensagem.value,
       }),
     })
 
-    if (response.ok) {
+    const data = await response.json()
+
+    if (response.ok && data.success) {
       submetidoComSucesso.value = true
       nome.value = ''
       assunto.value = ''
       mensagem.value = ''
     } else {
-      const errorData = await response.json();
-      console.error('Falha no envio do formulário:', errorData.message || response.statusText)
+      console.error('Falha no envio do Web3Forms:', data.message || 'Erro desconhecido')
     }
   } catch (error) {
     console.error('Erro ao conectar com a API:', error)
