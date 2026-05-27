@@ -20,9 +20,9 @@
         <path ref="lanyardPath" fill="none" stroke="url(#lanyardGradient)" stroke-width="14" stroke-linecap="round" />
       </svg>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-15 items-center z-10 w-full pt-0 md:pt-20 pb-10 md:pb-20 relative">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-15 lg:items-center z-10 w-full pt-0 md:pt-20 pb-10 md:pb-20 relative">
 
-        <div class="lg:col-span-9 flex flex-col text-left order-1 pt-12 md:pt-0 pb-8 md:pb-32 relative z-20">
+        <div class="lg:col-span-7 flex flex-col text-left order-1 pt-12 md:pt-0 pb-8 md:pb-32 relative z-20">
 
           <!-- Badge de Arquitetura -->
           <div class="hero-badge opacity-0 hidden md:inline-flex items-center gap-4 px-3 py-1 rounded-full border border-[var(--color-ultraviolet)]/30 bg-[var(--color-bg-surface)]/50 text-xs font-mono text-[var(--color-magenta)] mt-4 md:mt-0 mb-6 md:mb-6 w-fit backdrop-blur-md">
@@ -69,19 +69,19 @@
 
           <!-- Desktop Buttons (hidden on mobile) -->
           <div class="hero-buttons opacity-0 mt-10 md:mt-10 hidden md:flex flex-wrap gap-3 md:gap-4">
-            <a href="#sobre" class="group relative px-6 md:px-8 py-3 md:py-4 bg-[var(--color-ultraviolet)] hover:bg-[var(--color-magenta)] text-white font-medium rounded-full transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] transform-gpu hover:scale-105 shadow-[0_0_25px_rgba(112,0,255,0.4)] hover:shadow-[0_0_30px_rgba(255,0,127,0.6)] active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50 text-sm md:text-base">
+            <a id="btn-saber-mais" href="#sobre" class="group relative px-6 md:px-8 py-3 md:py-4 bg-[var(--color-ultraviolet)] text-white font-medium rounded-full transform-gpu shadow-[0_0_25px_rgba(112,0,255,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-magenta)]/50 text-sm md:text-base select-none">
               Saber Mais
             </a>
-            <a href="#contato" class="px-6 md:px-8 py-3 md:py-4 rounded-full border border-[var(--color-border)] hover:border-[var(--color-magenta)] bg-[var(--color-bg-surface)]/40 text-[var(--color-text-pure)] font-medium transition-all duration-300 backdrop-blur-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ultraviolet)]/50 text-sm md:text-base">
+            <a id="btn-iniciar-conexao" href="#contato" class="px-6 md:px-8 py-3 md:py-4 rounded-full border border-[var(--color-border)] bg-[var(--color-bg-surface)]/40 text-[var(--color-text-pure)] font-medium backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-ultraviolet)]/50 text-sm md:text-base select-none">
               Iniciar Conexão
             </a>
-            <a href="/Curriculo-Hellen-Verena-(Desenvolvedora).pdf" target="_blank" download class="px-6 md:px-8 py-3 md:py-4 rounded-full border border-dashed border-[#7000FF] hover:bg-[#7000FF]/20 text-neutral-900 dark:text-white font-medium transition-all duration-300 backdrop-blur-md active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7000FF]/50 text-sm md:text-base">
+            <a id="btn-curriculo" href="/Curriculo-Hellen-Verena-(Desenvolvedora).pdf" target="_blank" download class="px-6 md:px-8 py-3 md:py-4 rounded-full border border-dashed border-[#7000FF] text-neutral-900 dark:text-white font-medium backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7000FF]/50 text-sm md:text-base select-none">
               Baixar Currículo
             </a>
           </div>
         </div>
 
-        <div class="absolute md:relative inset-x-0 top-[60%] -translate-y-1/2 md:top-auto md:translate-y-0 z-0 md:z-10 lg:col-span-5 flex justify-center lg:justify-end min-h-[220px] md:min-h-[480px] w-full order-2 pointer-events-none md:pointer-events-auto opacity-50 md:opacity-100">
+        <div class="absolute inset-x-0 top-[60%] -translate-y-1/2 z-0 opacity-50 pointer-events-none md:static md:inset-auto md:translate-y-0 md:z-10 md:opacity-100 md:pointer-events-auto lg:col-span-5 flex justify-center lg:justify-end min-h-[220px] md:min-h-[480px] w-full order-2">
           <div ref="cardRef" class="badge-container relative w-40 md:w-72 lg:w-80 flex items-start justify-center pt-12 md:pt-0">
             <div
               ref="badgeRef"
@@ -398,6 +398,76 @@ onMounted(async () => {
     delay: 0.5,
     ease: 'power3.out'
   })
+
+  // ─── Micro-animações GSAP nos botões desktop ────────────────────────────
+  // Aplica apenas em telas >= md (768px) — não toca nos botões mobile
+  const setupButtonGSAP = (id, hoverShadow, hoverBg) => {
+    const el = document.getElementById(id)
+    if (!el) return
+
+    // Estado base gravado uma vez
+    const baseShadow = window.getComputedStyle(el).boxShadow
+
+    el.addEventListener('mouseenter', () => {
+      gsap.killTweensOf(el)
+      gsap.to(el, {
+        scale: 1.05,
+        boxShadow: hoverShadow,
+        backgroundColor: hoverBg || null,
+        duration: 0.3,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      })
+    })
+
+    el.addEventListener('mouseleave', () => {
+      gsap.killTweensOf(el)
+      gsap.to(el, {
+        scale: 1,
+        boxShadow: baseShadow,
+        backgroundColor: hoverBg ? '' : null,
+        duration: 0.35,
+        ease: 'power2.inOut',
+        overwrite: 'auto'
+      })
+    })
+
+    el.addEventListener('mousedown', () => {
+      gsap.killTweensOf(el)
+      gsap.to(el, {
+        scale: 0.95,
+        duration: 0.12,
+        ease: 'power3.in',
+        overwrite: 'auto'
+      })
+    })
+
+    el.addEventListener('mouseup', () => {
+      gsap.killTweensOf(el)
+      gsap.to(el, {
+        scale: 1.05,
+        duration: 0.25,
+        ease: 'elastic.out(1, 0.4)',
+        overwrite: 'auto'
+      })
+    })
+  }
+
+  setupButtonGSAP(
+    'btn-saber-mais',
+    '0 0 32px rgba(255,0,127,0.65), 0 0 8px rgba(255,0,127,0.3)',
+    'rgba(255,0,127,0.9)'
+  )
+  setupButtonGSAP(
+    'btn-iniciar-conexao',
+    '0 0 20px rgba(112,0,255,0.5), inset 0 0 12px rgba(112,0,255,0.12)',
+    null
+  )
+  setupButtonGSAP(
+    'btn-curriculo',
+    '0 0 20px rgba(112,0,255,0.35), inset 0 0 10px rgba(112,0,255,0.08)',
+    'rgba(112,0,255,0.18)'
+  )
 })
 
 onUnmounted(() => {
