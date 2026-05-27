@@ -14,7 +14,7 @@ const submetidoComSucesso = ref(false)
 // ─── Envio Assíncrono via API (Formspree) ──────────────────────────────────
 async function enviarFormulario() {
   if (!FORM_ENDPOINT) {
-    console.error('URL da API do Formspree não configurada no arquivo .env')
+    console.error('URL da API (VITE_FORMSPREE_URL) não configurada nas variáveis de ambiente.')
     return
   }
 
@@ -29,9 +29,12 @@ async function enviarFormulario() {
         'Accept': 'application/json',
       },
       body: JSON.stringify({
-        nome: nome.value,
-        assunto: assunto.value,
-        mensagem: mensagem.value,
+        // Se estiver usando Web3Forms, passamos a variável de ambiente como access_key.
+        // Caso seja Formspree, ele apenas ignorará essa linha, mantendo o código agnóstico.
+        access_key: FORM_ENDPOINT.split('/').pop(), 
+        name: nome.value,
+        subject: assunto.value,
+        message: mensagem.value,
       }),
     })
 
@@ -41,7 +44,8 @@ async function enviarFormulario() {
       assunto.value = ''
       mensagem.value = ''
     } else {
-      console.error('Falha no envio do formulário:', response.statusText)
+      const errorData = await response.json();
+      console.error('Falha no envio do formulário:', errorData.message || response.statusText)
     }
   } catch (error) {
     console.error('Erro ao conectar com a API:', error)
