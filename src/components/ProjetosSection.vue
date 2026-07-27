@@ -23,7 +23,9 @@ const projetos = [
       'Falta de rastreabilidade no chão de fábrica, descontrole em testes de qualidade/laboratório e comunicação descentralizada entre os setores de modelagem, gerando retrabalho e perda de peças sem histórico auditável.',
     arquitetura:
       'Arquitetura relacional robusta com 35 tabelas em PostgreSQL, backend em Node.js/TypeORM com RBAC dinâmico "Zero Hardcode" e integração a serviços legados via rede Docker isolada. Frontend em Vue 3 com bipagem de peças via RFID em Modo Quiosque, lógica de Handoff Automático entre setores e automação de e-mails/Dossiês em PDF.',
-    pilha: ['Vue 3', 'Node.js', 'PostgreSQL', 'Docker', 'Tailwind v4'],
+    pilha: ['Vue 3', 'Node.js', 'PostgreSQL', 'Docker', 'Tailwind v4', 'JWT Authentication', 'TypeScript', 'WebSockets (Socket.io)', 'Puppeteer', 'Axios', 'TypeORM',
+      'Express.js', 'Helmet & Express Rate Limit', 'Swagger / OpenAPI 3.0', 'Zod', 'JWT (JSON Web Tokens) & Bcrypt', 'ntegração RFID / Modo Quiosque'
+    ],
     categoria: 'ERP em Modelagem',
     destaque: true,
     link: null,
@@ -51,7 +53,7 @@ const projetos = [
       'Perda de rastreabilidade nas sobras físicas de lotes de corte e acumulação desordenada de cones de linha vazios no almoxarifado.',
     arquitetura:
       'Módulo web reativo em Vue 3 para processamento em lote de saldos de matéria-prima e gestão em tempo real do inventário de cones e devoluções ao estoque central.',
-    pilha: ['Vue 3', 'Tailwind CSS', 'Inventário'],
+    pilha: ['Vue 3', 'Tailwind CSS', 'Inventário', 'PostgreSQL', 'REST API', 'Docker', 'JWT Authentication','Node.js'],
     categoria: 'Projeto Corporativo',
     destaque: false,
     link: null,
