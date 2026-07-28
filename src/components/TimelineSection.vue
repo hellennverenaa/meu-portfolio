@@ -3,10 +3,10 @@ const experiencias = [
   {
     marcador: '§ 01',
     periodo: 'Dez/2025 — Presente',
-    cargo: 'Desenvolvedora Front-End & Automação',
+    cargo: 'Desenvolvedora Full Stack & Automação',
     empresa: 'Grupo Dass',
     descricao:
-      'Atuação 100% alocada no desenvolvimento de soluções internas, dashboards e automações para o chão de fábrica. Criação de sistemas de alta urgência utilizando JavaScript (Google Apps Script), integrando fluxos de e-mail, bases de dados e hardware (tablets e leitores de QR Code) para otimizar a operação industrial.',
+      'Liderança técnica no desenvolvimento de soluções de missão crítica para a operação industrial. Construção de arquiteturas relacionais robustas (PostgreSQL, Node.js, TypeORM) e interfaces eficientes (Vue.js) para digitalização do chão de fábrica. Otimização de processos físicos através da integração de sistemas web com hardware local (terminais em Modo Quiosque e leitores RFID/QR Code), além de orquestrar automações de resposta rápida utilizando Google Apps Script e fluxos de e-mail.',
     pilha: ['JavaScript', 'Google Apps Script', 'Dashboards', 'Automação'],
   },
   {
@@ -83,7 +83,7 @@ const experiencias = [
             </p>
 
             <!-- Descrição -->
-            <p class="text-[var(--color-text-muted)] leading-relaxed text-sm md:text-base max-w-2xl mb-4 md:mb-6">
+            <p class="text-left text-[var(--color-text-muted)] leading-relaxed text-sm md:text-base max-w-2xl mb-4 md:mb-6">
               {{ exp.descricao }}
             </p>
 

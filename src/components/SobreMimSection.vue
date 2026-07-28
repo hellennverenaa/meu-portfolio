@@ -14,15 +14,15 @@
             § Sobre Mim
           </span>
           <h2 class="sobre-title gs-hidden text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-brutal leading-[0.9] text-(--color-text-pure)">
-            Onde o software
-            <span class="block text-transparent bg-clip-text bg-linear-to-r from-ultraviolet to-magenta mt-1">encontra a fábrica.</span>
+            Onde o código
+            <span class="block text-transparent bg-clip-text bg-linear-to-r from-ultraviolet to-magenta mt-1">encontra o chão de fábrica.</span>
           </h2>
-          <div class="flex flex-col gap-4 md:gap-5">
-            <p class="sobre-text gs-hidden text-(--color-text-muted) text-base md:text-lg leading-relaxed">
-              Minha trajetória profissional é fundamentada na vivência industrial real, atuando diretamente em cargos como <strong class="text-(--color-text-pure) font-semibold">Assistente de Consumo</strong> e <strong class="text-(--color-text-pure) font-semibold">Auxiliar de Custos</strong>. Essa experiência prática me deu uma compreensão profunda sobre como identificar e eliminar gargalos de produção no chão de fábrica.
+          <div class="flex flex-col gap-4 md:gap-5 text-left">
+            <p class="sobre-text gs-hidden text-left text-(--color-text-muted) text-base md:text-lg leading-relaxed">
+              A engenharia de software não acontece apenas na nuvem; ela resolve problemas físicos. Antes de arquitetar bancos de dados e interfaces com Vue.js, atuei diretamente na operação industrial lidando com controle de inventário e qualidade na linha de produção.
             </p>
-            <p class="sobre-text gs-hidden text-(--color-text-muted) text-base md:text-lg leading-relaxed">
-              Essa base operacional e analítica fundamenta diretamente a forma como construo aplicações web e mobile modernas utilizando <strong class="text-(--color-text-pure) font-semibold">Vue.js e React Native</strong>. Traduzo regras de negócio complexas do chão de fábrica em interfaces intuitivas e eficientes para os usuários, mitigando perdas sistêmicas.
+            <p class="sobre-text gs-hidden text-left text-(--color-text-muted) text-base md:text-lg leading-relaxed">
+              Hoje, traduzo o caos operacional em software de alta performance. Desenvolvo sistemas Full Stack focados em rastreabilidade, processamento em lote e eliminação de gargalos reais. Não construo apenas telas modernas; crio arquiteturas de dados que conectam o chão de fábrica à gestão, mitigando perdas sistêmicas com precisão cirúrgica.
             </p>
           </div>
 
