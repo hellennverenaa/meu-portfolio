@@ -64,7 +64,7 @@
           </h1>
 
           <p class="hero-sub opacity-0 mt-8 md:mt-8 text-base md:text-lg lg:text-xl text-[var(--color-text-muted)] max-w-xl font-normal leading-relaxed hidden md:block">
-            Especialista em criar interfaces web e mobile com <span class="text-[var(--color-text-pure)] font-mono">Vue.js</span> e <span class="text-[var(--color-text-pure)] font-mono">React Native</span> para digitalizar processos e reduzir desperdícios no chão de fábrica. Unindo código limpo com profundo entendimento da operação industrial.
+             Especialista em projetar e desenvolver sistemas <span class="text-[var(--color-text-pure)] font-mono">Web</span> e <span class="text-[var(--color-text-pure)] font-mono">Mobile</span> de ponta a ponta. Construo arquiteturas relacionais robustas, back-ends escaláveis e interfaces de alta performance para resolver regras de negócio complexas em qualquer setor, garantindo estabilidade sistêmica e eficiência operacional.
           </p>
 
           <!-- Desktop Buttons (hidden on mobile) -->
