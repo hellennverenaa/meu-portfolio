@@ -100,7 +100,7 @@ const projetos = [
     pilha: ['Vue 3', 'Tailwind CSS', 'GSAP', 'Integração de APIs'],
     categoria: 'Alta-Costura Digital',
     destaque: true,
-    link: 'https://samilly-e-hallerrandro.vercel.app/',
+    link: 'https://convite-demo.vercel.app/',
     imagem: '/projeto-casamento.jpg',
     isCasamento: true,
   },
